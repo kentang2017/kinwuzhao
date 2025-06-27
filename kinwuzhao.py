@@ -48,7 +48,7 @@ def five_zhao_paipan(day_gan):
     beast_seq = [six_beasts_order[(start_index + i) % len(six_beasts_order)] for i in range(6)]
 
     positions = [
-        ("巽宮", "兆鄉"),
+        ("巽宮", "兆"),
         ("震宮", "木鄉"),
         ("離宮", "火鄉"),
         ("中宮", "土鄉"),
@@ -67,7 +67,7 @@ def five_zhao_paipan(day_gan):
         beast = beast_seq[idx]
 
         if idx == 0:
-            relation = "兆鄉"
+            relation = "兆"
             my_element = zhao_element
         else:
             relation = dict(zip(re.findall("..", "尅我我尅比和生我我生"),re.findall("..", "官鬼妻財兄弟父母子孫"))).get(config.multi_key_dict_get(config.wuxing_relation_2, my_element+zhao_element))
