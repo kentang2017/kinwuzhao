@@ -193,6 +193,13 @@ with st.sidebar:
     except ValueError:
         st.error("請輸入有效的日期和時間！")
     
+    # 起盤方式選擇
+    pan_mode = st.radio(
+        "起盤方式",
+        ["傳統起盤", "時間起盤"],
+        index=0,
+    )
+
     # Timezone info
     st.caption("時區: Asia/Hong_Kong")
 
@@ -215,7 +222,10 @@ with pan:
     )
     qgz = config.gangzhi(y, m, d, h, min)
     jq = jieqi.jq(y, m, d, h, min)
-    pan = kinwuzhao.five_zhao_paipan(qgz[2][0])
+    if pan_mode == "時間起盤":
+        pan = kinwuzhao.gangzhi_paipan(qgz[:4])
+    else:
+        pan = kinwuzhao.five_zhao_paipan(qgz[2][0])
     svg_markup = build_svg(pan)
 
     a = "日期︰{}年{}月{}日{}時{}分\n".format(y, m, d, h, min)
