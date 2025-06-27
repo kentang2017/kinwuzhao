@@ -229,5 +229,6 @@ with pan:
         print(a + c + d)
     
     # Render SVG separately
+    st.write("SVG Markup:", svg_markup)  # Debug: Display raw SVG markup
     render_svg(svg_markup, 400)
 
