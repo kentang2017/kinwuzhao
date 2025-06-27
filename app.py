@@ -69,11 +69,14 @@ def build_svg(data):
         parts.append(f'<line x1="0" y1="{pos}" x2="{SVG_SIZE}" y2="{pos}" '
                      f'stroke="black"/>')
 
+    # Create a lookup by palace name
+    by_palace = {v.get("宮位"): v for v in data.values()}
+
     # add cell text
     for name, col, row in grid:
         x = col * CELL_SIZE + CELL_SIZE / 2
         y = row * CELL_SIZE + CELL_SIZE / 2
-        cell = data.get(name, {})  # may be empty if not returned
+        cell = by_palace.get(name, {})  # may be empty if not returned
         text = f'{name}\\n{cell.get("六獸","")} {cell.get("五行","")}'
         parts.append(f'<text x="{x}" y="{y}" text-anchor="middle" '
                      f'dominant-baseline="middle" font-size="12">{text}</text>')
