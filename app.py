@@ -98,8 +98,7 @@ CELL_SIZE = 120  # size of each square
 SVG_SIZE = CELL_SIZE * 3
 
 def build_svg(data):
-    parts = [f'<svg width="{SVG_SIZE}" height="{SVG_SIZE}" '
-             f'xmlns="http://www.w3.org/2000/svg">']
+    parts = []
     # grid lines
     for i in range(4):
         pos = i * CELL_SIZE
