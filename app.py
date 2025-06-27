@@ -85,8 +85,8 @@ def build_svg(data):
     # grid lines
     for i in range(4):
         pos = i * CELL_SIZE
-        parts.append(f'<line x1="{pos}" y1="0" x2="{pos}" y2="{SVG_SIZE}" stroke="black"/>')
-        parts.append(f'<line x1="0" y1="{pos}" x2="{SVG_SIZE}" y2="{pos}" stroke="black"/>')
+        parts.append(f'<line x1="{pos}" y1="0" x2="{pos}" y2="{SVG_SIZE}" stroke="white"/>')
+        parts.append(f'<line x1="0" y1="{pos}" x2="{SVG_SIZE}" y2="{pos}" stroke="white"/>')
 
     # Create a lookup by palace name
     by_palace = {v.get("宮位"): v for v in data.values()}
