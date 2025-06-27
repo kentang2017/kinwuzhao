@@ -84,6 +84,67 @@ def five_zhao_paipan(day_gan):
     return result
 
 
+def gangzhi_paipan(gz_list):
+    """以年月日時干支計算五兆。
+
+    參數 ``gz_list`` 為 ``config.gangzhi`` 所傳回的前四項 [年, 月, 日, 時]。
+    """
+    if len(gz_list) < 4:
+        return {"錯誤": "干支資料不足"}
+
+    y, m, d, h = gz_list[:4]
+    day_gan = d[0]
+
+    if day_gan not in day_gan_to_beast:
+        return {"錯誤": "日干不正確，請輸入：甲乙丙丁戊己庚辛壬癸"}
+
+    jz2num = dict(zip(config.jiazi(), range(1, 61)))
+    beast_start = day_gan_to_beast[day_gan]
+    start_index = six_beasts_order.index(beast_start)
+    beast_seq = [six_beasts_order[(start_index + i) % len(six_beasts_order)]
+                 for i in range(6)]
+
+    positions = [
+        ("巽宮", "兆", [y, m, d, h]),
+        ("震宮", "木鄉", [y, m, h]),
+        ("離宮", "火鄉", [m, d, h]),
+        ("中宮", "土鄉", [y, d, h]),
+        ("兌宮", "金鄉", [m, h]),
+        ("坎宮", "水鄉", [d, h])
+    ]
+
+    result = {}
+    my_element = ""
+
+    for idx, (gong, label, parts) in enumerate(positions):
+        total = sum(jz2num[i] for i in parts)
+        zhao_num = total % 5
+        zhao_num = zhao_num if zhao_num != 0 else 5
+        zhao_element = num_to_element[zhao_num]
+        beast = beast_seq[idx]
+
+        if idx == 0:
+            relation = ""
+            my_element = zhao_element
+        else:
+            relation = dict(zip(re.findall("..", "尅我我尅比和生我我生"),
+                                re.findall("..", "官鬼妻財兄弟父母子孫")))\
+                .get(config.multi_key_dict_get(config.wuxing_relation_2,
+                                              my_element + zhao_element))
+
+        result[label] = {
+            "宮位": dict(zip(
+                "巽宮,震宮,離宮,中宮,兌宮,坎宮".split(","),
+                "兆,木鄉,火鄉,土鄉,金鄉,水鄉".split(","))).get(gong),
+            "數字": zhao_num,
+            "五行": zhao_element,
+            "六獸": beast,
+            "六親": relation,
+        }
+
+    return result
+
+
 if __name__ == '__main__':
     dg = config.gangzhi(2025,6,27,11,24)[2][0]
     print(five_zhao_paipan(dg))
