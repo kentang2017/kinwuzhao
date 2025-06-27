@@ -88,7 +88,7 @@ def five_zhao_paipan(day_gan):
 
     for idx, (gong, label) in enumerate(zip(gongs, labels)):
         num = nums[idx]
-        element = num_to_element[num]
+        element = num_to_element[(num - 1) % 5 + 1]
 
         # 六親判斷
         relation_code = config.multi_key_dict_get(config.wuxing_relation_2, my_element + element)
