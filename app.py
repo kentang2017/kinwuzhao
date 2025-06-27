@@ -175,9 +175,9 @@ with pan:
     pan = kinwuzhao.five_zhao_paipan(qgz[2][0])
     svg_markup = build_svg(pan)
     a = "日期︰{}年{}月{}日{}時{}分\n".format(y,m,d,h,min)
-    c = "節氣︰{}\n".format(jq)      
+    c = "節氣︰{}\n".format(jq)
     d = "干支︰{}年 {}月 {}日 {}時 {}分\n".format(qgz[0], qgz[1], qgz[2], qgz[3], qgz[4])
     output2 = st.empty()
     with st_capture(output2.code):
-        print(a+b+c+d)
+        print(a+c+d)
         st.markdown(svg_markup, unsafe_allow_html=True)
