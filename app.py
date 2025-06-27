@@ -37,9 +37,42 @@ def lunar_date_d(y, m, d):
 st.set_page_config(
     layout="wide",
     page_title="堅五兆 - 五兆排盘",
-    page_icon="icon.jpg"
+    #page_icon="icon.jpg"
 )
 pan,example,guji,links,update = st.tabs([' 🧮排盤 ', ' 📜案例 ', ' 📚古籍 ',' 🔗連結 ',' 🆕更新 ' ])
+
+
+# Map palace names to grid positions
+grid = [
+    ("巽宮", 0, 0), ("離宮", 1, 0), ("坤宮", 2, 0),
+    ("震宮", 0, 1), ("中宮", 1, 1), ("兌宮", 2, 1),
+    ("艮宮", 0, 2), ("坎宮", 1, 2), ("乾宮", 2, 2)
+]
+
+CELL_SIZE = 120  # size of each square
+SVG_SIZE = CELL_SIZE * 3
+
+def build_svg(data):
+    parts = [f'<svg width="{SVG_SIZE}" height="{SVG_SIZE}" '
+             f'xmlns="http://www.w3.org/2000/svg">']
+    # grid lines
+    for i in range(4):
+        pos = i * CELL_SIZE
+        parts.append(f'<line x1="{pos}" y1="0" x2="{pos}" y2="{SVG_SIZE}" '
+                     f'stroke="black"/>')
+        parts.append(f'<line x1="0" y1="{pos}" x2="{SVG_SIZE}" y2="{pos}" '
+                     f'stroke="black"/>')
+
+    # add cell text
+    for name, col, row in grid:
+        x = col * CELL_SIZE + CELL_SIZE / 2
+        y = row * CELL_SIZE + CELL_SIZE / 2
+        cell = data.get(name, {})  # may be empty if not returned
+        text = f'{name}\\n{cell.get("六獸","")} {cell.get("五行","")}'
+        parts.append(f'<text x="{x}" y="{y}" text-anchor="middle" '
+                     f'dominant-baseline="middle" font-size="12">{text}</text>')
+    parts.append('</svg>')
+    return ''.join(parts)
 
 with st.sidebar:
     st.header("日期與時間選擇")
@@ -134,6 +167,7 @@ with pan:
     qgz = gangzhi(y, m, d, h, min)
     jq = jq(y, m, d, h, min)
     pan = kinwuzhao.five_zhao_paipan(qgz[2][0])
+    svg_markup = build_svg(pan)
     output2 = st.empty()
     with st_capture(output2.code):
-        print()
+        st.markdown(svg_markup, unsafe_allow_html=True)
