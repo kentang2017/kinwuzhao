@@ -219,8 +219,8 @@ with pan:
     a = "日期︰{}年{}月{}日{}時{}分\n".format(y,m,d,h,min)
     c = "節氣︰{}\n".format(jq)
     d = "干支︰{}年 {}月 {}日 {}時 {}分\n".format(qgz[0], qgz[1], qgz[2], qgz[3], qgz[4])
-    render_svg(svg_markup, 400)
     output2 = st.empty()
     with st_capture(output2.code):
         print(a+c+d)
+        render_svg(svg_markup, 400)
 
