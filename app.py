@@ -64,7 +64,7 @@ st.set_page_config(
     page_title="堅五兆 - 五兆排盘",
     #page_icon="icon.jpg"
 )
-pan,example,guji,links,update = st.tabs([' 🧮排盤 ', ' 📜案例 ', ' 📚古籍 ',' 🔗連結 ',' 🆕更新 ' ])
+pan,example,links,update = st.tabs([' 🧮排盤 ', ' 📜案例 ',' 🔗連結 ',' 🆕更新 ' ])
 
 
 # Map palace names to grid positions
@@ -196,10 +196,6 @@ with st.sidebar:
     
     # Timezone info
     st.caption("時區: Asia/Hong_Kong")
-
-with guji:
-    st.header('古籍')
-    st.markdown(get_file_content_as_string(""))
 
 with links:
     st.header('連結')
