@@ -228,4 +228,4 @@ with pan:
         print(a + c + d)
     
     # Render SVG
-    render_svg(svg_markup, 400)
+    render_svg(svg_markup, 600)
