@@ -34,48 +34,56 @@ def random_split(total):
     return random.randint(1, total - 1)
 
 # 主流程
+# 主流程
 def five_zhao_paipan(day_gan):
     if day_gan not in day_gan_to_beast:
         return {"錯誤": "日干不正確，請輸入：甲乙丙丁戊己庚辛壬癸"}
+
     base = 36
     result = {}
+
     # 六獸序列，循環分配六個位置
     beast_start = day_gan_to_beast[day_gan]
     start_index = six_beasts_order.index(beast_start)
     beast_seq = [six_beasts_order[(start_index + i) % len(six_beasts_order)] for i in range(6)]
 
     positions = [
-        ("巽宮", "兆"),
+        ("巽宮", "兆鄉"),
         ("震宮", "木鄉"),
         ("離宮", "火鄉"),
         ("中宮", "土鄉"),
         ("兌宮", "金鄉"),
         ("坎宮", "水鄉")
     ]
+
     remain = base
     my_element = ""
+
     for idx, (gong, label) in enumerate(positions):
         left = random_split(remain)
         zhao_num = left % 5
         zhao_num = zhao_num if zhao_num != 0 else 5
         zhao_element = num_to_element[zhao_num]
         beast = beast_seq[idx]
-        gong1 = {""}
+
         if idx == 0:
+            relation = "兆鄉"
             my_element = zhao_element
         else:
             relation = dict(zip(re.findall("..", "尅我我尅比和生我我生"),re.findall("..", "官鬼妻財兄弟父母子孫"))).get(config.multi_key_dict_get(config.wuxing_relation_2, my_element+zhao_element))
         result[label] = {
-            "宮位": gong[0],
+            "宮位": gong,
             "數字": zhao_num,
-            "五行": zhao_element+"鄉",
+            "五行": zhao_element,
             "六獸": beast,
             "六親": relation
         }
+
         remain -= zhao_num
         if remain <= 0:
             break
     return result
+
 
 if __name__ == '__main__':
     dg = config.gangzhi(2025,6,27,11,24)[2][0]
