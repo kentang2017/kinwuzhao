@@ -37,6 +37,44 @@ def get_file_content_as_string(path):
     response = urllib.request.urlopen(url)
     return response.read().decode("utf-8")
 
+def render_svg(svg, num):
+    if not svg or 'svg' not in svg.lower():
+        st.error("Invalid SVG content provided")
+        return
+    html_content = f"""
+    <div style="margin: 0; padding: 0;">
+      <svg id="interactive-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {num} {num}" width="100%" height="auto" style="max-height: 400px; display: block; margin: 0 auto;">
+        {svg}
+      </svg>
+      <script>
+      </script>
+    </div>
+    <style>
+        #interactive-svg {{
+            margin-top: 10px;
+            margin-bottom: 10px;
+            user-select: none;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            outline: none;
+            -webkit-tap-highlight-color: transparent;
+            touch-action: none;
+        }}
+        #interactive-svg * {{
+            user-select: none;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            outline: none;
+        }}
+        .stCodeBlock {{
+            margin-bottom: 10px !important;
+        }}
+    </style>
+    """
+    html(html_content, height=num)
+
 def lunar_date_d(y, m, d):
     day = fromSolar(y,m,d)
     return {"月": str(day.getLunarMonth())+"月", "日":str(day.getLunarDay())}
@@ -185,4 +223,4 @@ with pan:
     output2 = st.empty()
     with st_capture(output2.code):
         print(a+c+d)
-        st.markdown(html(svg_markup))
+        st.markdown(render_svg(svg_markup, 400))
