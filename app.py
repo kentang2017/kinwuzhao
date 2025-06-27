@@ -99,13 +99,14 @@ SVG_SIZE = CELL_SIZE * 3
 
 def build_svg(data):
     parts = []
+    parts.append(f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {SVG_SIZE} {SVG_SIZE}" '
+                 f'width="{SVG_SIZE}" height="{SVG_SIZE}">')
+    
     # grid lines
     for i in range(4):
         pos = i * CELL_SIZE
-        parts.append(f'<line x1="{pos}" y1="0" x2="{pos}" y2="{SVG_SIZE}" '
-                     f'stroke="black"/>')
-        parts.append(f'<line x1="0" y1="{pos}" x2="{SVG_SIZE}" y2="{pos}" '
-                     f'stroke="black"/>')
+        parts.append(f'<line x1="{pos}" y1="0" x2="{pos}" y2="{SVG_SIZE}" stroke="black"/>')
+        parts.append(f'<line x1="0" y1="{pos}" x2="{SVG_SIZE}" y2="{pos}" stroke="black"/>')
 
     # Create a lookup by palace name
     by_palace = {v.get("宮位"): v for v in data.values()}
@@ -118,9 +119,9 @@ def build_svg(data):
         text = f'{name}\\n{cell.get("六獸","")} {cell.get("六親","" )} {cell.get("五行","" )}'
         parts.append(f'<text x="{x}" y="{y}" text-anchor="middle" '
                      f'dominant-baseline="middle" font-size="12">{text}</text>')
+    
     parts.append('</svg>')
     return ''.join(parts)
-
 
 with st.sidebar:
     st.header("日期與時間選擇")
