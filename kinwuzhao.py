@@ -64,17 +64,16 @@ def five_zhao_paipan(day_gan):
         zhao_num = zhao_num if zhao_num != 0 else 5
         zhao_element = num_to_element[zhao_num]
         beast = beast_seq[idx]
-
+        gong1 = {""}
         if idx == 0:
-            relation = "兆鄉"
             my_element = zhao_element
         else:
             relation = dict(zip(re.findall("..", "尅我我尅比和生我我生"),re.findall("..", "官鬼妻財兄弟父母子孫"))).get(config.multi_key_dict_get(config.wuxing_relation_2, my_element+zhao_element))
 
         result[label] = {
-            "宮位": gong,
+            "宮位": gong[0],
             "數字": zhao_num,
-            "五行": zhao_element,
+            "五行": zhao_element+"鄉",
             "六獸": beast,
             "六親": relation
         }
