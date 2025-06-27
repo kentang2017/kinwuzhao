@@ -11,7 +11,7 @@ import config, jieqi
 import kinwuzhao
 
 # Initialize session state to control rendering
-if 'render_default' not in st.session_state:str
+if 'render_default' not in st.session_state:
     st.session_state.render_default = True
 
 @st.cache_data
