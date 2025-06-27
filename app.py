@@ -77,11 +77,12 @@ def build_svg(data):
         x = col * CELL_SIZE + CELL_SIZE / 2
         y = row * CELL_SIZE + CELL_SIZE / 2
         cell = by_palace.get(name, {})  # may be empty if not returned
-        text = f'{name}\\n{cell.get("六獸","")} {cell.get("五行","")}'
+        text = f'{name}\\n{cell.get("六獸","")} {cell.get("六親","" )} {cell.get("五行","" )}'
         parts.append(f'<text x="{x}" y="{y}" text-anchor="middle" '
                      f'dominant-baseline="middle" font-size="12">{text}</text>')
     parts.append('</svg>')
     return ''.join(parts)
+
 
 with st.sidebar:
     st.header("日期與時間選擇")
