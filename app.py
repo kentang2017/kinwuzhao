@@ -212,16 +212,22 @@ with update:
   
 with pan:
     st.header('堅五兆')
-    cm =  dict(zip(list(range(1,13)), list("正二三四五六七八九十")+["十一","十二"])).get(int(lunar_date_d(y, m, d).get("月").replace("月", "")))
+    cm = dict(zip(list(range(1, 13)), list("正二三四五六七八九十") + ["十一", "十二"])).get(
+        int(lunar_date_d(y, m, d).get("月").replace("月", ""))
+    )
     qgz = config.gangzhi(y, m, d, h, min)
     jq = jieqi.jq(y, m, d, h, min)
     pan = kinwuzhao.five_zhao_paipan(qgz[2][0])
     svg_markup = build_svg(pan)
-    a = "日期︰{}年{}月{}日{}時{}分\n".format(y,m,d,h,min)
+    a = "日期︰{}年{}月{}日{}時{}分\n".format(y, m, d, h, min)
     c = "節氣︰{}\n".format(jq)
     d = "干支︰{}年 {}月 {}日 {}時 {}分\n".format(qgz[0], qgz[1], qgz[2], qgz[3], qgz[4])
+    
+    # Capture text output
     output2 = st.empty()
     with st_capture(output2.code):
-        print(a+c+d)
-        render_svg(svg_markup, 400)
+        print(a + c + d)
+    
+    # Render SVG separately
+    render_svg(svg_markup, 400)
 
