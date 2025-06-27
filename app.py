@@ -6,6 +6,7 @@ from contextlib import contextmanager, redirect_stdout
 from sxtwl import fromSolar
 from io import StringIO
 import streamlit.components.v1 as components
+from streamlit.components.v1 import html
 import config, jieqi
 import kinwuzhao
 
@@ -184,4 +185,4 @@ with pan:
     output2 = st.empty()
     with st_capture(output2.code):
         print(a+c+d)
-        st.markdown(svg_markup, unsafe_allow_html=True)
+        st.markdown(html(svg_markup))
