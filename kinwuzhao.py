@@ -34,7 +34,6 @@ def random_split(total):
     return random.randint(1, total - 1)
 
 # 主流程
-# 主流程
 def five_zhao_paipan(day_gan):
     if day_gan not in day_gan_to_beast:
         return {"錯誤": "日干不正確，請輸入：甲乙丙丁戊己庚辛壬癸"}
