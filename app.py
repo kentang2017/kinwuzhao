@@ -11,7 +11,7 @@ import config, jieqi
 import kinwuzhao
 
 # Initialize session state to control rendering
-if 'render_default' not in st.session_state:
+if 'render_default' not in st.session_state:str
     st.session_state.render_default = True
 
 @st.cache_data
@@ -199,7 +199,7 @@ with st.sidebar:
 
 with guji:
     st.header('古籍')
-    st.markdown(get_file_content_as_string("guji.md"))
+    st.markdown(get_file_content_as_string(""))
 
 with links:
     st.header('連結')
