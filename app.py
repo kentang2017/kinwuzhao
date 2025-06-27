@@ -97,19 +97,26 @@ def build_svg(data):
     # Add cell text (white text with tspans for multiline)
     for name, col, row in grid:
         x = col * CELL_SIZE + CELL_SIZE / 2
-        y = row * CELL_SIZE + CELL_SIZE / 2 - 20  # Adjust y to center multiline text
+        y = row * CELL_SIZE + CELL_SIZE / 2 - 30  # Adjust y to center multiline text
         cell = by_palace.get(name, {})  # May be empty if not returned
         # Prepare text components
         texts = [
-            name,
-            f'{cell.get("五行", "")} n\ {cell.get("六獸", "")} n\ {cell.get("六親", "")} '.strip()
+            name,  # Palace name (e.g., 巽宮)
+            cell.get("五行", ""),  # Five Elements (e.g., 水)
+            cell.get("六獸", ""),  # Six Beasts (e.g., 朱雀)
+            cell.get("六親", "")   # Six Relations (e.g., 我本人)
         ]
         # Add text with tspans for multiline rendering
         parts.append(f'<text x="{x}" y="{y}" text-anchor="middle" '
                      f'dominant-baseline="hanging" font-size="14" fill="white">')
         for i, line in enumerate(texts):
             if line:  # Only add non-empty lines
-                parts.append(f'<tspan x="{x}" dy="{"1.2em" if i > 0 else "0"}">{line}</tspan>')
+                # Apply bold and larger font-size to 五行 (index 1)
+                if i == 1:
+                    parts.append(f'<tspan x="{x}" dy="{"1.2em" if i > 0 else "0"}" '
+                                 f'font-size="18" font-weight="bold">{line}</tspan>')
+                else:
+                    parts.append(f'<tspan x="{x}" dy="{"1.2em" if i > 0 else "0"}">{line}</tspan>')
         parts.append('</text>')
     
     parts.append('</svg>')
