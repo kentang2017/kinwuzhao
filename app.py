@@ -199,16 +199,19 @@ with pan:
     jq = jieqi.jq(y, m, d, h, min)
     pan = kinwuzhao.five_zhao_paipan(qgz[2][0])
     svg_markup = build_svg(pan)
+    
+    # Debug: Display raw SVG markup
+    with st.expander("Debug: Raw SVG Markup"):
+        st.code(svg_markup)
+    
     a = "日期︰{}年{}月{}日{}時{}分\n".format(y, m, d, h, min)
     c = "節氣︰{}\n".format(jq)
     d = "干支︰{}年 {}月 {}日 {}時 {}分\n".format(qgz[0], qgz[1], qgz[2], qgz[3], qgz[4])
     
-    # Capture text output
+    # Capture and display text output
     output2 = st.empty()
     with st_capture(output2.code):
         print(a + c + d)
     
-    # Render SVG separately
-    st.write("SVG Markup:", svg_markup)  # Debug: Display raw SVG markup
+    # Render SVG
     render_svg(svg_markup, 400)
-
