@@ -170,8 +170,7 @@ with update:
 with pan:
     st.header('堅五兆')
     cm =  dict(zip(list(range(1,13)), list("正二三四五六七八九十")+["十一","十二"])).get(int(lunar_date_d(y, m, d).get("月").replace("月", "")))
-    qgz = gangzhi(y, m, d, h, min)
-    jq = jq(y, m, d, h, min)
+    qgz = config.gangzhi(y, m, d, h, min)
     pan = kinwuzhao.five_zhao_paipan(qgz[2][0])
     svg_markup = build_svg(pan)
     output2 = st.empty()
