@@ -179,4 +179,5 @@ with pan:
     d = "干支︰{}年 {}月 {}日 {}時 {}分\n".format(qgz[0], qgz[1], qgz[2], qgz[3], qgz[4])
     output2 = st.empty()
     with st_capture(output2.code):
+        print(a+b+c+d)
         st.markdown(svg_markup, unsafe_allow_html=True)
