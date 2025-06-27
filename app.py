@@ -102,7 +102,7 @@ def build_svg(data):
         # Prepare text components
         texts = [
             name,
-            f'{cell.get("六獸", "")} {cell.get("六親", "")} {cell.get("五行", "")}'.strip()
+            f'{cell.get("五行", "")} n\ {cell.get("六獸", "")} n\ {cell.get("六親", "")} '.strip()
         ]
         # Add text with tspans for multiline rendering
         parts.append(f'<text x="{x}" y="{y}" text-anchor="middle" '
