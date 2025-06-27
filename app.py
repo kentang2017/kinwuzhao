@@ -82,23 +82,32 @@ def build_svg(data):
     parts.append(f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {SVG_SIZE} {SVG_SIZE}" '
                  f'width="{SVG_SIZE}" height="{SVG_SIZE}">')
     
-    # grid lines
+    # Grid lines (changed stroke to black for visibility)
     for i in range(4):
         pos = i * CELL_SIZE
-        parts.append(f'<line x1="{pos}" y1="0" x2="{pos}" y2="{SVG_SIZE}" stroke="white"/>')
-        parts.append(f'<line x1="0" y1="{pos}" x2="{SVG_SIZE}" y2="{pos}" stroke="white"/>')
+        parts.append(f'<line x1="{pos}" y1="0" x2="{pos}" y2="{SVG_SIZE}" stroke="black"/>')
+        parts.append(f'<line x1="0" y1="{pos}" x2="{SVG_SIZE}" y2="{pos}" stroke="black"/>')
 
     # Create a lookup by palace name
     by_palace = {v.get("宮位"): v for v in data.values()}
 
-    # add cell text
+    # Add cell text (use tspans for multiline text and set fill to black)
     for name, col, row in grid:
         x = col * CELL_SIZE + CELL_SIZE / 2
-        y = row * CELL_SIZE + CELL_SIZE / 2
-        cell = by_palace.get(name, {})  # may be empty if not returned
-        text = f'{name}\\n{cell.get("六獸","")} {cell.get("六親","" )} {cell.get("五行","" )}'
+        y = row * CELL_SIZE + CELL_SIZE / 2 - 20  # Adjust y to center multiline text
+        cell = by_palace.get(name, {})  # May be empty if not returned
+        # Prepare text components
+        texts = [
+            name,
+            f'{cell.get("六獸", "")} {cell.get("六親", "")} {cell.get("五行", "")}'.strip()
+        ]
+        # Add text with tspans for multiline rendering
         parts.append(f'<text x="{x}" y="{y}" text-anchor="middle" '
-                     f'dominant-baseline="middle" font-size="12">{text}</text>')
+                     f'dominant-baseline="hanging" font-size="14" fill="black">')
+        for i, line in enumerate(texts):
+            if line:  # Only add non-empty lines
+                parts.append(f'<tspan x="{x}" dy="{"1.2em" if i > 0 else "0"}">{line}</tspan>')
+        parts.append('</text>')
     
     parts.append('</svg>')
     return ''.join(parts)
