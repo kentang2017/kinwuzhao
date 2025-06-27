@@ -82,16 +82,19 @@ def build_svg(data):
     parts.append(f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {SVG_SIZE} {SVG_SIZE}" '
                  f'width="{SVG_SIZE}" height="{SVG_SIZE}">')
     
-    # Grid lines (changed stroke to black for visibility)
+    # Add black background rectangle
+    parts.append(f'<rect x="0" y="0" width="{SVG_SIZE}" height="{SVG_SIZE}" fill="black"/>')
+    
+    # Grid lines (white for visibility)
     for i in range(4):
         pos = i * CELL_SIZE
-        parts.append(f'<line x1="{pos}" y1="0" x2="{pos}" y2="{SVG_SIZE}" stroke="black"/>')
-        parts.append(f'<line x1="0" y1="{pos}" x2="{SVG_SIZE}" y2="{pos}" stroke="black"/>')
+        parts.append(f'<line x1="{pos}" y1="0" x2="{pos}" y2="{SVG_SIZE}" stroke="white"/>')
+        parts.append(f'<line x1="0" y1="{pos}" x2="{SVG_SIZE}" y2="{pos}" stroke="white"/>')
 
     # Create a lookup by palace name
     by_palace = {v.get("宮位"): v for v in data.values()}
 
-    # Add cell text (use tspans for multiline text and set fill to black)
+    # Add cell text (white text with tspans for multiline)
     for name, col, row in grid:
         x = col * CELL_SIZE + CELL_SIZE / 2
         y = row * CELL_SIZE + CELL_SIZE / 2 - 20  # Adjust y to center multiline text
@@ -103,7 +106,7 @@ def build_svg(data):
         ]
         # Add text with tspans for multiline rendering
         parts.append(f'<text x="{x}" y="{y}" text-anchor="middle" '
-                     f'dominant-baseline="hanging" font-size="14" fill="black">')
+                     f'dominant-baseline="hanging" font-size="14" fill="white">')
         for i, line in enumerate(texts):
             if line:  # Only add non-empty lines
                 parts.append(f'<tspan x="{x}" dy="{"1.2em" if i > 0 else "0"}">{line}</tspan>')
