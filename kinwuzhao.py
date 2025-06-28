@@ -34,7 +34,8 @@ def random_split(total):
     return random.randint(1, total - 1)
 
 # 主流程
-def five_zhao_paipan(day_gan):
+def five_zhao_paipan(day_gan, num):
+    num = 0
     if day_gan not in day_gan_to_beast:
         return {"錯誤": "日干不正確，請輸入：甲乙丙丁戊己庚辛壬癸"}
 
@@ -84,7 +85,7 @@ def five_zhao_paipan(day_gan):
     return result
 
 
-def gangzhi_paipan(gz_list):
+def gangzhi_paipan(gz_list, num):
     """以年月日時干支計算五兆。
 
     參數 ``gz_list`` 為 ``config.gangzhi`` 所傳回的前四項 [年, 月, 日, 時]。
@@ -105,12 +106,12 @@ def gangzhi_paipan(gz_list):
                  for i in range(6)]
 
     positions = [
-        ("巽宮", "兆", [y, m, d, h]),
-        ("震宮", "木鄉", [y, m, d]),
-        ("離宮", "火鄉", [m, d, h]),
-        ("中宮", "土鄉", [d, h, mi]),
-        ("兌宮", "金鄉", [d, h]),
-        ("坎宮", "水鄉", [h, mi])
+        ("巽宮", "兆", [y, m, d, h, num]),
+        ("震宮", "木鄉", [y, m, d, num]),
+        ("離宮", "火鄉", [m, d, h, num]),
+        ("中宮", "土鄉", [d, h, mi, num]),
+        ("兌宮", "金鄉", [d, h, num]),
+        ("坎宮", "水鄉", [h, mi, num])
     ]
 
     result = {}
