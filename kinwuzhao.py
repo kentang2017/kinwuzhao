@@ -94,11 +94,11 @@ def gangzhi_paipan(gz_list, num):
         return {"錯誤": "干支資料不足"}
 
     y, m, d, h, mi= gz_list
-    if mi[0] not in day_gan_to_beast:
+    if h[0] not in day_gan_to_beast:
         return {"錯誤": "日干不正確，請輸入：甲乙丙丁戊己庚辛壬癸"}
 
     jz2num = dict(zip(config.jiazi(), range(1, 61)))
-    beast_start = day_gan_to_beast[mi[0]]
+    beast_start = day_gan_to_beast[h[0]]
     start_index = six_beasts_order.index(beast_start)
     beast_seq = [six_beasts_order[(start_index + i) % len(six_beasts_order)]
                  for i in range(6)]
