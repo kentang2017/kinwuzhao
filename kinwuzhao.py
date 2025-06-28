@@ -92,7 +92,7 @@ def gangzhi_paipan(gz_list):
     if len(gz_list) < 4:
         return {"錯誤": "干支資料不足"}
 
-    y, m, d, h, mi= gz_list[:5]
+    y, m, d, h, mi= gz_list
     day_gan = d[0]
 
     if day_gan not in day_gan_to_beast:
