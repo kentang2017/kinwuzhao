@@ -223,7 +223,7 @@ with pan:
     qgz = config.gangzhi(y, m, d, h, min)
     jq = jieqi.jq(y, m, d, h, min)
     if pan_mode == "時間起盤":
-        pan = kinwuzhao.gangzhi_paipan(qgz[:4])
+        pan = kinwuzhao.gangzhi_paipan(qgz)
     else:
         pan = kinwuzhao.five_zhao_paipan(qgz[2][0])
     svg_markup = build_svg(pan)
