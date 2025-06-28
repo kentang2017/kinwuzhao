@@ -233,9 +233,9 @@ with pan:
     qgz = config.gangzhi(y, m, d, h, min)
     jq = jieqi.jq(y, m, d, h, min)
     if pan_mode == "時間起盤":
-        pan = kinwuzhao.gangzhi_paipan(qgz)
+        pan = kinwuzhao.gangzhi_paipan(qgz, number)
     else:
-        pan = kinwuzhao.five_zhao_paipan(qgz[2][0])
+        pan = kinwuzhao.five_zhao_paipan(qgz[3][0], number)
     svg_markup = build_svg(pan)
 
     a = "日期︰{}年{}月{}日{}時{}分\n".format(y, m, d, h, min)
