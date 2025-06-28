@@ -94,9 +94,7 @@ def gangzhi_paipan(gz_list, num):
         return {"錯誤": "干支資料不足"}
 
     y, m, d, h, mi= gz_list
-    day_gan = d[0]
-
-    if day_gan not in day_gan_to_beast:
+    if mi not in day_gan_to_beast:
         return {"錯誤": "日干不正確，請輸入：甲乙丙丁戊己庚辛壬癸"}
 
     jz2num = dict(zip(config.jiazi(), range(1, 61)))
@@ -106,12 +104,12 @@ def gangzhi_paipan(gz_list, num):
                  for i in range(6)]
 
     positions = [
-        ("巽宮", "兆", [y, m, d, h, num]),
-        ("震宮", "木鄉", [y, m, d, num]),
-        ("離宮", "火鄉", [m, d, h, num]),
-        ("中宮", "土鄉", [d, h, mi, num]),
-        ("兌宮", "金鄉", [h, mi, num]),
-        ("坎宮", "水鄉", [mi, num])
+        ("巽宮", "兆", [y, m, d, h, mi, num]),
+        ("震宮", "木鄉", [m, d, h, mi, num]),
+        ("離宮", "火鄉", [d, h, mi, num]),
+        ("中宮", "土鄉", [h, mi, num]),
+        ("兌宮", "金鄉", [mi, num]),
+        ("坎宮", "水鄉", [num])
     ]
 
     result = {}
