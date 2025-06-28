@@ -176,7 +176,7 @@ with st.sidebar:
             step=1,
             help="輸入分鐘 (0-59)"
         )
-
+    col6 = st.columns(1)
     with col6:
         number = st.number_input(
             "數字",
