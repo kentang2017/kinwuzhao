@@ -176,6 +176,16 @@ with st.sidebar:
             step=1,
             help="輸入分鐘 (0-59)"
         )
+    col6 = st.columns(1)
+    with col6:
+        number = st.number_input(
+            "數字",
+            min_value=0
+            max_value=9,
+            value= 0
+            step=1
+            help="輸入數字(0-9)"
+        )
     # Quick-select buttons for common times
     st.subheader("快速選擇")
     if st.button("現在"):
