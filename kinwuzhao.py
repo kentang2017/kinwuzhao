@@ -11,7 +11,7 @@ num_to_element = {
 }
 
 # 六獸序列
-six_beasts_order = ["青龍", "朱雀", "勾陳", "白虎", "玄武"]
+six_beasts_order = ["青龍", "朱雀", "螣蛇", "勾陳", "白虎", "玄武"]
 
 # 日干對應起六獸首位
 day_gan_to_beast = {
