@@ -235,7 +235,7 @@ with pan:
     if pan_mode == "時間起盤":
         pan = kinwuzhao.gangzhi_paipan(qgz, number)
     else:
-        pan = kinwuzhao.five_zhao_paipan(qgz[3][0], number)
+        pan = kinwuzhao.five_zhao_paipan(qgz[4][0], number)
     svg_markup = build_svg(pan)
 
     a = "日期︰{}年{}月{}日{}時{}分\n".format(y, m, d, h, min)
