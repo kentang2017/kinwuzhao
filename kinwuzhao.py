@@ -118,7 +118,12 @@ def gangzhi_paipan(gz_list, num):
     my_element = ""
 
     for idx, (gong, label, parts) in enumerate(positions):
-        total = sum(jz2num[i] for i in parts)
+        # ``parts`` may include an integer ``num`` provided by the user. The
+        # mapping ``jz2num`` only contains keys for traditional 60 ``甲子``
+        # values, so directly indexing with ``num`` would raise ``KeyError``.
+        # Use ``dict.get`` to treat non-``甲子`` entries as their numeric
+        # values when calculating ``total``.
+        total = sum(jz2num.get(i, i) for i in parts)
         zhao_num = total % 5
         zhao_num = zhao_num if zhao_num != 0 else 5
         zhao_element = num_to_element[zhao_num]
