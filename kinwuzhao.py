@@ -110,8 +110,8 @@ def gangzhi_paipan(gz_list, num):
         ("震宮", "木鄉", [y, m, d, num]),
         ("離宮", "火鄉", [m, d, h, num]),
         ("中宮", "土鄉", [d, h, mi, num]),
-        ("兌宮", "金鄉", [d, h, num]),
-        ("坎宮", "水鄉", [h, mi, num])
+        ("兌宮", "金鄉", [h, mi, num]),
+        ("坎宮", "水鄉", [mi, num])
     ]
 
     result = {}
