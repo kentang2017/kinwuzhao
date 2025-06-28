@@ -92,7 +92,7 @@ def gangzhi_paipan(gz_list):
     if len(gz_list) < 4:
         return {"錯誤": "干支資料不足"}
 
-    y, m, d, h = gz_list[:4]
+    y, m, d, h, mi= gz_list[:5]
     day_gan = d[0]
 
     if day_gan not in day_gan_to_beast:
@@ -106,11 +106,11 @@ def gangzhi_paipan(gz_list):
 
     positions = [
         ("巽宮", "兆", [y, m, d, h]),
-        ("震宮", "木鄉", [y, m, h]),
+        ("震宮", "木鄉", [y, m, d]),
         ("離宮", "火鄉", [m, d, h]),
-        ("中宮", "土鄉", [y, d, h]),
-        ("兌宮", "金鄉", [m, h]),
-        ("坎宮", "水鄉", [d, h])
+        ("中宮", "土鄉", [d, h, mi]),
+        ("兌宮", "金鄉", [d, h]),
+        ("坎宮", "水鄉", [h, mi])
     ]
 
     result = {}
