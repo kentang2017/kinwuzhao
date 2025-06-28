@@ -180,10 +180,10 @@ with st.sidebar:
     with col6:
         number = st.number_input(
             "數字",
-            min_value=0
+            min_value=0,
             max_value=9,
-            value= 0
-            step=1
+            value= 0,
+            step=1,
             help="輸入數字(0-9)"
         )
     # Quick-select buttons for common times
