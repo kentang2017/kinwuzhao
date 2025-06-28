@@ -177,12 +177,12 @@ with st.sidebar:
             help="輸入分鐘 (0-59)"
         )
     col6 = st.columns(1)
-    with col6:
+    with col6[0]:  # Access the single column object
         number = st.number_input(
             "數字",
             min_value=0,
             max_value=9,
-            value= 0,
+            value=0,
             step=1,
             help="輸入數字(0-9)"
         )
