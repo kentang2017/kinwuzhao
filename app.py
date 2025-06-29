@@ -101,7 +101,7 @@ def build_svg(data):
         # Prepare text components
         texts = [
             name,  # Palace name (e.g., 巽宮)
-            cell.get("五行", ""),  # Five Elements (e.g., 水)
+            "{}{}".format(cell.get("五行", ""),cell.get("旺相", "")),  # Five Elements (e.g., 水)
             cell.get("六獸", ""),  # Six Beasts (e.g., 朱雀)
             cell.get("六親", "")   # Six Relations (e.g., 我本人)
         ]
@@ -233,9 +233,9 @@ with pan:
     qgz = config.gangzhi(y, m, d, h, min)
     jq = jieqi.jq(y, m, d, h, min)
     if pan_mode == "時間起盤":
-        pan = kinwuzhao.gangzhi_paipan(qgz, number)
+        pan = kinwuzhao.gangzhi_paipan(qgz, number, jq)
     else:
-        pan = kinwuzhao.five_zhao_paipan(qgz[4][0], number)
+        pan = kinwuzhao.five_zhao_paipan(qgz[4][0], number, jq)
     svg_markup = build_svg(pan)
 
     a = "日期︰{}年{}月{}日{}時{}分   數字:{}\n".format(y, m, d, h, min, number)
