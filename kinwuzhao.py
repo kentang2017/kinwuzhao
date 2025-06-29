@@ -1,5 +1,6 @@
 import random, re
 import config
+import jieqi
 
 # 數字對應五行
 num_to_element = {
@@ -25,6 +26,26 @@ day_gan_to_beast = {
     "辛": "白虎",
     "壬": "玄武",
     "癸": "玄武"
+}
+wangxiang = tuple("王相胎沒死囚廢休") 
+trigrams = tuple("艮震巽離坤兌乾坎") 
+jieqi_groups = [
+    ("立春", "雨水", "驚蟄"),
+    ("春分", "清明", "穀雨"),
+    ("立夏", "小滿", "芒種"),
+    ("夏至", "小暑", "大暑"),
+    ("立秋", "處暑", "白露"),
+    ("秋分", "寒露", "霜降"),
+    ("立冬", "小雪", "大雪"),
+    ("冬至", "小寒", "大寒")
+]
+
+def rotate_trigrams(base, shift):
+    return base[shift:] + base[:shift]
+
+jieqi_wangxiang = {
+    jieqi: dict(zip(rotate_trigrams(trigrams, i), wangxiang))
+    for i, jieqi in enumerate(jieqi_groups)
 }
 
 # 隨機分兩份，返回左一份
