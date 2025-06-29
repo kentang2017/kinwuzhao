@@ -55,7 +55,7 @@ def random_split(total):
     return random.randint(1, total - 1)
 
 # 主流程
-def five_zhao_paipan(day_gan, num):
+def five_zhao_paipan(day_gan, num, jq):
     num = 0
     if day_gan not in day_gan_to_beast:
         return {"錯誤": "日干不正確，請輸入：甲乙丙丁戊己庚辛壬癸"}
@@ -94,6 +94,7 @@ def five_zhao_paipan(day_gan, num):
             relation = dict(zip(re.findall("..", "尅我我尅比和生我我生"),re.findall("..", "官鬼妻財兄弟父母子孫"))).get(config.multi_key_dict_get(config.wuxing_relation_2, my_element+zhao_element))
         result[label] = {
             "宮位": dict(zip("巽宮,震宮,離宮,中宮,兌宮,坎宮".split(","),"兆,木鄉,火鄉,土鄉,金鄉,水鄉".split(","))).get(gong),
+            "旺相": config.multi_key_dict_get(jieqi_wangxiang, jq).get(gong[0])
             "數字": zhao_num,
             "五行": zhao_element,
             "六獸": beast,
@@ -106,7 +107,7 @@ def five_zhao_paipan(day_gan, num):
     return result
 
 
-def gangzhi_paipan(gz_list, num):
+def gangzhi_paipan(gz_list, num, jq):
     """以年月日時干支計算五兆。
 
     參數 ``gz_list`` 為 ``config.gangzhi`` 所傳回的前四項 [年, 月, 日, 時]。
@@ -161,7 +162,7 @@ def gangzhi_paipan(gz_list, num):
             "宮位": dict(zip(
                 "巽宮,震宮,離宮,中宮,兌宮,坎宮".split(","),
                 "兆,木鄉,火鄉,土鄉,金鄉,水鄉".split(","))).get(gong),
-            "宮位1": gong, 
+            "旺相": config.multi_key_dict_get(jieqi_wangxiang, jq).get(gong[0])
             "數字": zhao_num,
             "五行": zhao_element,
             "六獸": beast,
