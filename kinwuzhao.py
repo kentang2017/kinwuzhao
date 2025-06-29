@@ -162,7 +162,7 @@ def gangzhi_paipan(gz_list, num, jq):
             "宮位": dict(zip(
                 "巽宮,震宮,離宮,中宮,兌宮,坎宮".split(","),
                 "兆,木鄉,火鄉,土鄉,金鄉,水鄉".split(","))).get(gong),
-            "旺相": config.multi_key_dict_get(jieqi_wangxiang, jq).get(gong[0])
+            "旺相": config.multi_key_dict_get(jieqi_wangxiang, jq).get(gong[0]),
             "數字": zhao_num,
             "五行": zhao_element,
             "六獸": beast,
