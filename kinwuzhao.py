@@ -27,8 +27,8 @@ day_gan_to_beast = {
     "壬": "玄武",
     "癸": "玄武"
 }
-wangxiang = tuple("王相胎沒死囚廢休　") 
-trigrams = tuple("艮震巽離坤兌乾坎中") 
+wangxiang = tuple("王相胎沒死囚廢休") 
+trigrams = tuple("艮震巽離坤兌乾坎") 
 jieqi_groups = [
     ("立春", "雨水", "驚蟄"),
     ("春分", "清明", "穀雨"),
