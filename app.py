@@ -247,7 +247,7 @@ with pan:
     a = "日期︰{}年{}月{}日{}時{}分   數字:{}\n".format(y, m, d, h, min, number)
     c = "節氣︰{}\n".format(jq)
     d = "干支︰{}年 {}月 {}日 {}時 {}分\n".format(qgz[0], qgz[1], qgz[2], qgz[3], qgz[4])
-    e = "起盤模式︰{}".format(pan_mode)
+    e = "起盤模式︰{}\n".format(pan_mode)
     f = "農曆{}月  關︰{}  籥:{}".format(lunar_month,  lk[0][1], lk[1][1])
     # Capture and display text output
     output2 = st.empty()
