@@ -22,7 +22,7 @@ if 'render_default' not in st.session_state:
 
 # Fetch files from the repositories' default branch
 BASE_URL_KINWUZHAO = 'https://raw.githubusercontent.com/kentang2017/kinwuzhao/main/'
-BASE_URL_KINLIUREN = 'https://raw.githubusercontent.com/kentang2017/kinliuren/main/'
+BASE_URL_KINLIUREN = 'https://raw.githubusercontent.com/kentang2017/kinliuren/master/'
 
 @st.cache_data
 def get_file_content_as_string(base_url, path):
