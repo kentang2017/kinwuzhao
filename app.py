@@ -3,6 +3,7 @@ import os
 import urllib.request
 import streamlit as st
 import pendulum as pdlm
+import logging
 from contextlib import contextmanager, redirect_stdout
 from sxtwl import fromSolar
 from io import StringIO
@@ -10,6 +11,8 @@ import streamlit.components.v1 as components
 from streamlit.components.v1 import html
 import config, jieqi
 import kinwuzhao
+
+logging.basicConfig(level=logging.ERROR)
 
 # Initialize session state to control rendering
 if 'render_default' not in st.session_state:
@@ -24,8 +27,14 @@ BASE_URL_KINLIUREN = 'https://raw.githubusercontent.com/kentang2017/kinliuren/ma
 def get_file_content_as_string(base_url, path):
     """從指定 URL 獲取文件內容並返回字符串"""
     url = base_url + path
-    response = urllib.request.urlopen(url)
-    return response.read().decode("utf-8")
+    try:
+        response = urllib.request.urlopen(url)
+        return response.read().decode("utf-8")
+    except Exception as e:
+        logging.error("Error loading %s: %s", url, e)
+        # Clear cached result to avoid stale data
+        get_file_content_as_string.clear()
+        return "Unable to load content."
 
 @contextmanager
 def st_capture(output_func):
