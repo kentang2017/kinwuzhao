@@ -11,6 +11,13 @@ num_to_element = {
     5: "土"
 }
 
+sixbeast_weakness = {"青龍":re.findall("..", "坤死兌害"),
+"朱雀":re.findall("..", "坎死巽害"),
+"螣蛇":re.findall("..", "坎死巽害"),
+"勾陳":re.findall("..", "巽死巽害"),
+"白虎":re.findall("..", "坎死離害"),
+"玄武":re.findall("..", "巽死震害")}
+
 # 六獸序列
 six_beasts_order = ["青龍", "朱雀", "螣蛇", "勾陳", "白虎", "玄武"]
 
@@ -109,6 +116,8 @@ def five_zhao_paipan(day_gan, num, jq, day_zhi):
             "數字": zhao_num,
             "五行": zhao_element,
             "六獸": beast,
+            "六獸死": "死" if sixbeast_weakness.get(beast)[0][0] == gong[0] else "",
+            "六獸害": "害" if sixbeast_weakness.get(beast)[1][0] == gong[0] else "",
             "六親": relation,
             "關": "關" if lk[0][1] == gong[0] else "",
             "籥": "籥" if lk[1][1] == gong[0] else ""
@@ -179,6 +188,8 @@ def gangzhi_paipan(gz_list, num, jq):
             "數字": zhao_num,
             "五行": zhao_element,
             "六獸": beast,
+            "六獸死": "死" if sixbeast_weakness.get(beast)[0][0] == gong[0] else "",
+            "六獸害": "害" if sixbeast_weakness.get(beast)[1][0] == gong[0] else "",
             "六親": relation,
             "關": "關" if lk[0][1] == gong[0] else "",
             "籥": "籥" if lk[1][1] == gong[0] else ""
