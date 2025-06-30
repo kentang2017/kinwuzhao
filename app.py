@@ -104,6 +104,8 @@ def build_svg(data):
             "{}{}".format(cell.get("五行", ""),cell.get("旺相", "")),  # Five Elements (e.g., 水)
             cell.get("六獸", ""),  # Six Beasts (e.g., 朱雀)
             cell.get("六親", "")   # Six Relations (e.g., 我本人)
+            cell.get("關", "")
+            cell.get("籥", "")
         ]
         # Add text with tspans for multiline rendering
         parts.append(f'<text x="{x}" y="{y}" text-anchor="middle" '
