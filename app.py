@@ -18,7 +18,7 @@ if 'render_default' not in st.session_state:
 # 定義基礎 URL
 
 BASE_URL_KINWUZHAO = 'https://raw.githubusercontent.com/kentang2017/kinwuzhao/master/'
-BASE_URL_KINLIUREN = 'https://raw.githubusercontent.com/kentang2017/kinliuren/master'
+BASE_URL_KINLIUREN = 'https://raw.githubusercontent.com/kentang2017/kinliuren/master/'
 
 @st.cache_data
 def get_file_content_as_string(base_url, path):
