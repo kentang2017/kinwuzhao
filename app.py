@@ -67,7 +67,7 @@ def lunar_date_d(y, m, d):
 st.set_page_config(
     layout="wide",
     page_title="堅五兆 - 五兆排盘",
-    page_icon="/pic/icon.jpg"
+    page_icon="icon.png"
 )
 pan,example,guji,links,update = st.tabs([' 🧮排盤 ', ' 📜案例 ', ' 📚古籍 ',' 🔗連結 ',' 🆕更新 ' ])
 
