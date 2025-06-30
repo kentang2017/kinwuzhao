@@ -101,12 +101,13 @@ def five_zhao_paipan(day_gan, num, jq, lm):
         result[label] = {
             "宮位": dict(zip("巽宮,震宮,離宮,中宮,兌宮,坎宮".split(","),"兆,木鄉,火鄉,土鄉,金鄉,水鄉".split(","))).get(gong),
             "旺相": config.multi_key_dict_get(jieqi_wangxiang, jq).get(gong[0].replace("中", "坤"), ""),
+            "宮位1": gong[0], 
             "數字": zhao_num,
             "五行": zhao_element,
             "六獸": beast,
             "六親": relation,
-            "關": lk[0][1],
-            "籥": lk[1][1]
+            "關": "關" if lk[0][1] == gong[0] else "",
+            "籥": "籥" if lk[1][1] == gong[0] else ""
         }
 
         remain -= zhao_num
@@ -170,13 +171,14 @@ def gangzhi_paipan(gz_list, num, jq, lm):
             "宮位": dict(zip(
                 "巽宮,震宮,離宮,中宮,兌宮,坎宮".split(","),
                 "兆,木鄉,火鄉,土鄉,金鄉,水鄉".split(","))).get(gong),
+            "宮位1": gong[0], 
             "旺相": config.multi_key_dict_get(jieqi_wangxiang, jq).get(gong[0].replace("中", "坤"), ""),
             "數字": zhao_num,
             "五行": zhao_element,
             "六獸": beast,
             "六親": relation,
-            "關": lk[0][1],
-            "籥": lk[1][1]
+            "關": "關" if lk[0][1] == gong[0] else "",
+            "籥": "籥" if lk[1][1] == gong[0] else ""
         }
 
     return result
