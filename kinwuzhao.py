@@ -43,7 +43,7 @@ jieqi_groups = [
 locknkey ={("正","二","三"):re.findall("..","關丑籥巳"),
 ("四","五","六"):re.findall("..","關辰籥申"),
 ("七","八","九"):re.findall("..","關未籥亥"),
-("十","十一","十二", "腊"):re.findall("..","關戌籥寅")}
+("十","冬","腊"):re.findall("..","關戌籥寅")}
 
 
 def rotate_trigrams(base, shift):
