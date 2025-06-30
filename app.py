@@ -249,7 +249,7 @@ with pan:
     # Capture and display text output
     output2 = st.empty()
     with st_capture(output2.code):
-        print(a + c + d)
+        print(a + c + d+e )
     
     # Render SVG
     render_svg(svg_markup, 600)
