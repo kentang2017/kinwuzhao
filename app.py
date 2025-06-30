@@ -206,7 +206,7 @@ with st.sidebar:
     # 起盤方式選擇
     pan_mode = st.radio(
         "起盤方式",
-        ["傳統起盤", "時間起盤"],
+        ["日干起盤", "分干起盤" ,"干支起盤"],
         index=0,
     )
 
@@ -232,10 +232,12 @@ with pan:
     )
     qgz = config.gangzhi(y, m, d, h, min)
     jq = jieqi.jq(y, m, d, h, min)
-    if pan_mode == "時間起盤":
+    if pan_mode == "干支起盤":
         pan = kinwuzhao.gangzhi_paipan(qgz, number, jq)
-    else:
-        pan = kinwuzhao.five_zhao_paipan(qgz[4][0], number, jq)
+    if pan_mode == "日干起盤":
+        pan = kinwuzhao.five_zhao_paipan(qgz[2][0], number, jq)
+    if pan_mode == "分干起盤":
+        pan = kinwuzhao.five_zhao_paipan(qgz[4][0], number, jq) 
     svg_markup = build_svg(pan)
 
     a = "日期︰{}年{}月{}日{}時{}分   數字:{}\n".format(y, m, d, h, min, number)
