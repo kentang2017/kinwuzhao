@@ -232,7 +232,7 @@ with pan:
     )
     qgz = config.gangzhi(y, m, d, h, min)
     jq = jieqi.jq(y, m, d, h, min)
-    lunar_month = config.lunar_date_d(y, m, d)[0]
+    lunar_month = config.lunar_date_d(y, m, d)["農曆月"][0]
     lk = config.multi_key_dict_get(kinwuzhao.locknkey, lunar_month)
     if pan_mode == "干支起盤":
         pan = kinwuzhao.gangzhi_paipan(qgz, number, jq)
