@@ -40,10 +40,14 @@ jieqi_groups = [
     ("冬至", "小寒", "大寒")
 ]
 
-locknkey ={("正","二","三"):re.findall("..","關中籥離"),
-("四","五","六"):re.findall("..","關震籥兌"),
-("七","八","九"):re.findall("..","關離籥坎"),
-("十","冬","腊"):re.findall("..","關中籥震")}
+#locknkey ={("正","二","三"):re.findall("..","關中籥離"),
+#("四","五","六"):re.findall("..","關震籥兌"),
+#("七","八","九"):re.findall("..","關離籥坎"),
+#("十","冬","腊"):re.findall("..","關中籥震")}
+locknkey ={("丑","寅","卯"):re.findall("..","關中籥離"),
+("辰","巳","午"):re.findall("..","關震籥兌"),
+("未","申","酉"):re.findall("..","關離籥坎"),
+("戌","亥","子"):re.findall("..","關中籥震")}
 
 
 def rotate_trigrams(base, shift):
@@ -61,14 +65,14 @@ def random_split(total):
     return random.randint(1, total - 1)
 
 # 主流程
-def five_zhao_paipan(day_gan, num, jq, lm):
+def five_zhao_paipan(day_gan, num, jq, day_zhi):
     num = 0
     if day_gan not in day_gan_to_beast:
         return {"錯誤": "日干不正確，請輸入：甲乙丙丁戊己庚辛壬癸"}
 
     base = 36
     result = {}
-    lk = config.multi_key_dict_get(locknkey, lm)
+    lk = config.multi_key_dict_get(locknkey, day_zhi)
     # 六獸序列，循環分配六個位置
     beast_start = day_gan_to_beast[day_gan]
     start_index = six_beasts_order.index(beast_start)
@@ -116,7 +120,7 @@ def five_zhao_paipan(day_gan, num, jq, lm):
     return result
 
 
-def gangzhi_paipan(gz_list, num, jq, lm):
+def gangzhi_paipan(gz_list, num, jq):
     """以年月日時干支計算五兆。
 
     參數 ``gz_list`` 為 ``config.gangzhi`` 所傳回的前四項 [年, 月, 日, 時]。
@@ -127,13 +131,12 @@ def gangzhi_paipan(gz_list, num, jq, lm):
     y, m, d, h, mi= gz_list
     if mi[0] not in day_gan_to_beast:
         return {"錯誤": "日干不正確，請輸入：甲乙丙丁戊己庚辛壬癸"}
-    lk = config.multi_key_dict_get(locknkey, lm)
+    lk = config.multi_key_dict_get(locknkey, mi[1])
     jz2num = dict(zip(config.jiazi(), range(1, 61)))
     beast_start = day_gan_to_beast[mi[0]]
     start_index = six_beasts_order.index(beast_start)
     beast_seq = [six_beasts_order[(start_index + i) % len(six_beasts_order)]
                  for i in range(6)]
-
     positions = [
         ("巽宮", "兆", [y, m, d, h, mi, num]),
         ("震宮", "木鄉", [m, d, h, mi, num]),
