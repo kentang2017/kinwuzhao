@@ -235,13 +235,13 @@ with pan:
     lunar_month = config.lunar_date_d(y, m, d)["農曆月"][0]
     lk = config.multi_key_dict_get(kinwuzhao.locknkey, lunar_month)
     if pan_mode == "干支起盤":
-        pan = kinwuzhao.gangzhi_paipan(qgz, number, jq)
+        pan = kinwuzhao.gangzhi_paipan(qgz, number, jq, lunar_month)
     if pan_mode == "日干起盤":
-        pan = kinwuzhao.five_zhao_paipan(qgz[2][0], number, jq)
+        pan = kinwuzhao.five_zhao_paipan(qgz[2][0], number, jq, lunar_month)
     if pan_mode == "時干起盤":
-        pan = kinwuzhao.five_zhao_paipan(qgz[3][0], number, jq)
+        pan = kinwuzhao.five_zhao_paipan(qgz[3][0], number, jq, lunar_month)
     if pan_mode == "分干起盤":
-        pan = kinwuzhao.five_zhao_paipan(qgz[4][0], number, jq) 
+        pan = kinwuzhao.five_zhao_paipan(qgz[4][0], number, jq, lunar_month) 
     svg_markup = build_svg(pan)
     
     a = "日期︰{}年{}月{}日{}時{}分   數字:{}\n".format(y, m, d, h, min, number)
