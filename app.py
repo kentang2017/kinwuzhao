@@ -217,7 +217,7 @@ with st.sidebar:
 
 with links:
     st.header('連結')
-    st.markdown(get_file_content_as_string("update.md"), unsafe_allow_html=True)
+    st.markdown(get_file_content_as_string1("update.md"), unsafe_allow_html=True)
 
 with guji:
     st.header('古籍')
