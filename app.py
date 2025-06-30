@@ -14,6 +14,11 @@ import kinwuzhao
 if 'render_default' not in st.session_state:
     st.session_state.render_default = True
 
+# 定義基礎 URL
+
+BASE_URL_KINWUZHAO = 'https://raw.githubusercontent.com/kentang2017/kinwuzhao/master/'
+BASE_URL_KINLIUREN = 'https://raw.githubusercontent.com/kentang2017/kinliuren/master/'
+
 @st.cache_data
 def get_file_content_as_string(base_url, path):
     """從指定 URL 獲取文件內容並返回字符串"""
@@ -31,16 +36,6 @@ def st_capture(output_func):
             return ret
         stdout.write = new_write
         yield
-
-def get_file_content_as_string(path):
-    url = 'https://raw.githubusercontent.com/kentang2017/kinliuren/master/' + path
-    response = urllib.request.urlopen(url)
-    return response.read().decode("utf-8")
-
-def get_file_content_as_string1(path):
-    url = 'https://raw.githubusercontent.com/kentang2017/kinwuzhao/master/' + path
-    response = urllib.request.urlopen(url)
-    return response.read().decode("utf-8")
 
 def render_svg(svg, num):
     if not svg or 'svg' not in svg.lower():
@@ -217,15 +212,16 @@ with st.sidebar:
 
 with links:
     st.header('連結')
-    st.markdown(get_file_content_as_string("update.md"), unsafe_allow_html=True)
+    st.markdown(get_file_content_as_string(BASE_URL_KINLIUREN, "update.md"))
 
 with guji:
     st.header('古籍')
-    st.markdown(get_file_content_as_string1(("guji.md"))
-
+    st.markdown(get_file_content_as_string(BASE_URL_KINWUZHAO, "guji.md"))
+                
 with update:
     st.header('更新')
-    st.markdown(get_file_content_as_string1(("log.md"))
+    st.markdown(get_file_content_as_string(BASE_URL_KINWUZHAO, "log.md"))
+
   
 with pan:
     st.header('堅五兆')
