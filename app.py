@@ -206,7 +206,7 @@ with st.sidebar:
     # 起盤方式選擇
     pan_mode = st.radio(
         "起盤方式",
-        ["日干起盤", "分干起盤" ,"干支起盤"],
+        ["日干起盤", "時干起盤", "分干起盤" ,"干支起盤"],
         index=0,
     )
 
@@ -236,6 +236,8 @@ with pan:
         pan = kinwuzhao.gangzhi_paipan(qgz, number, jq)
     if pan_mode == "日干起盤":
         pan = kinwuzhao.five_zhao_paipan(qgz[2][0], number, jq)
+    if pan_mode == "時干起盤":
+        pan = kinwuzhao.five_zhao_paipan(qgz[3][0], number, jq)
     if pan_mode == "分干起盤":
         pan = kinwuzhao.five_zhao_paipan(qgz[4][0], number, jq) 
     svg_markup = build_svg(pan)
