@@ -1,5 +1,6 @@
 import datetime
-import os, urllib
+import os
+import urllib.request
 import streamlit as st
 import pendulum as pdlm
 from contextlib import contextmanager, redirect_stdout
