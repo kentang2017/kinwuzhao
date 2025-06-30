@@ -212,7 +212,7 @@ with st.sidebar:
 
 with links:
     st.header('連結')
-    st.markdown(get_file_content_as_string(BASE_URL_KINLIUREN, "update.md"))
+    st.markdown(get_file_content_as_string(BASE_URL_KINLIUREN, "update.md"), unsafe_allow_html=True)
 
 with guji:
     st.header('古籍')
