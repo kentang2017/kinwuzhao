@@ -40,10 +40,10 @@ jieqi_groups = [
     ("冬至", "小寒", "大寒")
 ]
 
-locknkey ={("正","二","三"):re.findall("..","關丑籥巳"),
-("四","五","六"):re.findall("..","關辰籥申"),
-("七","八","九"):re.findall("..","關未籥亥"),
-("十","冬","腊"):re.findall("..","關戌籥寅")}
+locknkey ={("正","二","三"):re.findall("..","關中籥離"),
+("四","五","六"):re.findall("..","關震籥兌"),
+("七","八","九"):re.findall("..","關離籥坎"),
+("十","冬","腊"):re.findall("..","關中籥震")}
 
 
 def rotate_trigrams(base, shift):
@@ -61,14 +61,14 @@ def random_split(total):
     return random.randint(1, total - 1)
 
 # 主流程
-def five_zhao_paipan(day_gan, num, jq):
+def five_zhao_paipan(day_gan, num, jq, lm):
     num = 0
     if day_gan not in day_gan_to_beast:
         return {"錯誤": "日干不正確，請輸入：甲乙丙丁戊己庚辛壬癸"}
 
     base = 36
     result = {}
-
+    lk = config.multi_key_dict_get(locknkey, lm)
     # 六獸序列，循環分配六個位置
     beast_start = day_gan_to_beast[day_gan]
     start_index = six_beasts_order.index(beast_start)
@@ -104,7 +104,9 @@ def five_zhao_paipan(day_gan, num, jq):
             "數字": zhao_num,
             "五行": zhao_element,
             "六獸": beast,
-            "六親": relation
+            "六親": relation,
+            "關": lk[0],
+            "籥": lk[1]
         }
 
         remain -= zhao_num
@@ -113,7 +115,7 @@ def five_zhao_paipan(day_gan, num, jq):
     return result
 
 
-def gangzhi_paipan(gz_list, num, jq):
+def gangzhi_paipan(gz_list, num, jq, lm):
     """以年月日時干支計算五兆。
 
     參數 ``gz_list`` 為 ``config.gangzhi`` 所傳回的前四項 [年, 月, 日, 時]。
@@ -124,7 +126,7 @@ def gangzhi_paipan(gz_list, num, jq):
     y, m, d, h, mi= gz_list
     if mi[0] not in day_gan_to_beast:
         return {"錯誤": "日干不正確，請輸入：甲乙丙丁戊己庚辛壬癸"}
-
+    lk = config.multi_key_dict_get(locknkey, lm)
     jz2num = dict(zip(config.jiazi(), range(1, 61)))
     beast_start = day_gan_to_beast[mi[0]]
     start_index = six_beasts_order.index(beast_start)
@@ -173,6 +175,8 @@ def gangzhi_paipan(gz_list, num, jq):
             "五行": zhao_element,
             "六獸": beast,
             "六親": relation,
+            "關": lk[0],
+            "籥": lk[1]
         }
 
     return result
