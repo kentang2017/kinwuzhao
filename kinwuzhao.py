@@ -105,8 +105,8 @@ def five_zhao_paipan(day_gan, num, jq, lm):
             "五行": zhao_element,
             "六獸": beast,
             "六親": relation,
-            "關": lk[0],
-            "籥": lk[1]
+            "關": lk[0][1],
+            "籥": lk[1][1]
         }
 
         remain -= zhao_num
@@ -175,8 +175,8 @@ def gangzhi_paipan(gz_list, num, jq, lm):
             "五行": zhao_element,
             "六獸": beast,
             "六親": relation,
-            "關": lk[0],
-            "籥": lk[1]
+            "關": lk[0][1],
+            "籥": lk[1][1]
         }
 
     return result
