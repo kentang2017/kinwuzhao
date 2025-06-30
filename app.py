@@ -232,6 +232,8 @@ with pan:
     )
     qgz = config.gangzhi(y, m, d, h, min)
     jq = jieqi.jq(y, m, d, h, min)
+    lunar_month = config.lunar_date_d(y, m, d)[0]
+    lk = config.multi_key_dict_get(kinwuzhao.locknkey, lunar_month)
     if pan_mode == "干支起盤":
         pan = kinwuzhao.gangzhi_paipan(qgz, number, jq)
     if pan_mode == "日干起盤":
@@ -241,15 +243,16 @@ with pan:
     if pan_mode == "分干起盤":
         pan = kinwuzhao.five_zhao_paipan(qgz[4][0], number, jq) 
     svg_markup = build_svg(pan)
-
+    
     a = "日期︰{}年{}月{}日{}時{}分   數字:{}\n".format(y, m, d, h, min, number)
     c = "節氣︰{}\n".format(jq)
     d = "干支︰{}年 {}月 {}日 {}時 {}分\n".format(qgz[0], qgz[1], qgz[2], qgz[3], qgz[4])
     e = "起盤模式︰{}".format(pan_mode)
+    f = "{}  關︰{}  籥:{}".format(lunar_month,  lk[0][1], lk[1][1])
     # Capture and display text output
     output2 = st.empty()
     with st_capture(output2.code):
-        print(a + c + d+e )
+        print(e+ a + c + d )
     
     # Render SVG
     render_svg(svg_markup, 600)
