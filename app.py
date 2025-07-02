@@ -110,6 +110,7 @@ def build_svg(data):
             "{}{}".format(cell.get("五行", ""),cell.get("旺相", "")),  # Five Elements (e.g., 水)
             "{}{}{}".format(cell.get("六獸", ""),cell.get("六獸死", ""),cell.get("六獸害", "")),  # Six Beasts (e.g., 朱雀)
             cell.get("六親", ""),   # Six Relations (e.g., 我本人)
+            cell.get("將軍", ""),
             cell.get("關", ""),
             cell.get("籥", "")
         ]
