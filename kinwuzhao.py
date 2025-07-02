@@ -140,7 +140,7 @@ def five_zhao_paipan(num, jq, cm, gz1, gz2):
         zhao_num = zhao_num if zhao_num != 0 else 5
         zhao_element = num_to_element[zhao_num]
         beast = beast_seq[idx]
-        get_gx = config.multi_key_dict_get(guxu, gz1)
+        get_gx = config.multi_key_dict_get(guxu, gz2)
         get_yy = get_gx.get(config.multi_key_dict_get(yy, gz2[0]))
         gu = zhi2gua[get_yy["孤"]]
         xu = zhi2gua[get_yy["虛"]]
@@ -195,7 +195,7 @@ def gangzhi_paipan(gz_list, num, jq, cm):
     lock = zhi2gua[sky2earth.inverse[lnk["關"]]]
     key = zhi2gua[sky2earth.inverse[lnk["籥"]]]
     g = zhi2gua[sky2earth.inverse[general[mi[1]]]]
-    get_gx = config.multi_key_dict_get(guxu, h)
+    get_gx = config.multi_key_dict_get(guxu, mi)
     get_yy = get_gx.get(config.multi_key_dict_get(yy, mi[0]))
     gu = zhi2gua[get_yy["孤"]]
     xu = zhi2gua[get_yy["虛"]]
