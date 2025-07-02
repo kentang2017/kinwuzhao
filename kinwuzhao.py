@@ -20,6 +20,7 @@ sixbeast_weakness = {"青龍":re.findall("..", "坤死兌害"),
 "白虎":re.findall("..", "坎死離害"),
 "玄武":re.findall("..", "巽死震害")}
 
+general = dict(zip(list("子丑寅卯辰巳午未申酉戌亥"),list("子酉午卯子酉午卯子酉午卯")))
 # 六獸序列
 six_beasts_order = ["青龍", "朱雀", "螣蛇", "勾陳", "白虎", "玄武"]
 
@@ -110,6 +111,7 @@ def five_zhao_paipan(num, jq, cm, gz1, gz2):
     lnk = config.multi_key_dict_get(solar_terms_by_season, jq)
     lock = zhi2gua[sky2earth.inverse[lnk["關"]]]
     key = zhi2gua[sky2earth.inverse[lnk["籥"]]]
+    g = zhi2gua[sky2earth.inverse[general[gz2[1]]]]
     positions = [
         ("巽宮", "兆"),
         ("震宮", "木鄉"),
@@ -146,6 +148,7 @@ def five_zhao_paipan(num, jq, cm, gz1, gz2):
             "六親": relation,
             "關": "關" if lock == gong[0] else "",
             "籥": "籥" if key == gong[0] else ""
+            "將軍": "將軍" if g == gong[0] else ""
         }
 
         remain -= zhao_num
@@ -176,7 +179,7 @@ def gangzhi_paipan(gz_list, num, jq, cm):
     lnk = config.multi_key_dict_get(solar_terms_by_season, jq)
     lock = zhi2gua[sky2earth.inverse[lnk["關"]]]
     key = zhi2gua[sky2earth.inverse[lnk["籥"]]]
-    
+    g = zhi2gua[sky2earth.inverse[general[mi[1]]]]
     positions = [
         ("巽宮", "兆", [y, m, d, h, mi, num]),
         ("震宮", "木鄉", [m, d, h, mi, num]),
@@ -223,7 +226,8 @@ def gangzhi_paipan(gz_list, num, jq, cm):
             "六獸害": "害" if sixbeast_weakness.get(beast)[1][0] == gong[0] else "",
             "六親": relation,
             "關": "關" if lock == gong[0] else "",
-            "籥": "籥" if key == gong[0] else ""
+            "籥": "籥" if key == gong[0] else "",
+            "將軍": "將軍" if g == gong[0] else ""
         }
 
     return result
