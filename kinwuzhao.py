@@ -153,7 +153,7 @@ def five_zhao_paipan(day_gan, num, jq, cm, gz1, gz2):
     return result
 
 
-def gangzhi_paipan(gz_list, num, jq, cm, sytle):
+def gangzhi_paipan(gz_list, num, jq, cm):
     """以年月日時干支計算五兆。
 
     參數 ``gz_list`` 為 ``config.gangzhi`` 所傳回的前四項 [年, 月, 日, 時]。
