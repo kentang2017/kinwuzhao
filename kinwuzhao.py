@@ -195,8 +195,8 @@ def gangzhi_paipan(gz_list, num, jq, cm):
     lock = zhi2gua[sky2earth.inverse[lnk["關"]]]
     key = zhi2gua[sky2earth.inverse[lnk["籥"]]]
     g = zhi2gua[sky2earth.inverse[general[mi[1]]]]
-    get_gx = config.multi_key_dict_get(guxu, gz2)
-    get_yy = get_gx.get(config.multi_key_dict_get(yy, gz2[0]))
+    get_gx = config.multi_key_dict_get(guxu, h[0])
+    get_yy = get_gx.get(config.multi_key_dict_get(yy, mi[0]))
     gu = zhi2gua[get_yy["孤"]]
     xu = zhi2gua[get_yy["虛"]]
     positions = [
