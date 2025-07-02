@@ -11,3 +11,4 @@ bidict==0.22.1
 streamlit-modal==0.1.0
 streamlit-timeline==0.0.2
 streamlit-date-picker==0.0.3
+kinliuren==0.1.2.8
