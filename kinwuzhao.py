@@ -147,7 +147,7 @@ def five_zhao_paipan(num, jq, cm, gz1, gz2):
             "六獸害": "害" if sixbeast_weakness.get(beast)[1][0] == gong[0] else "",
             "六親": relation,
             "關": "關" if lock == gong[0] else "",
-            "籥": "籥" if key == gong[0] else ""
+            "籥": "籥" if key == gong[0] else "",
             "將軍": "將軍" if g == gong[0] else ""
         }
 
