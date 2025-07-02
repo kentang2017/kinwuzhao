@@ -1,6 +1,8 @@
 import random, re
 import config
 import jieqi
+from bidict import bidict
+from kinliuren import kinliuren
 
 # 數字對應五行
 num_to_element = {
@@ -47,6 +49,26 @@ jieqi_groups = [
     ("冬至", "小寒", "大寒")
 ]
 
+# 定義二十四節氣
+twenty_four_solar_terms = (
+    "立春", "雨水", "驚蟄", "春分", "清明", "穀雨",  # 春季
+    "立夏", "小滿", "芒種", "夏至", "小暑", "大暑",  # 夏季
+    "立秋", "處暑", "白露", "秋分", "寒露", "霜降",  # 秋季
+    "立冬", "小雪", "大雪", "冬至", "小寒", "大寒"   # 冬季
+)
+
+# 建立二十四節氣對應四季的 dictionary
+solar_terms_by_season = {
+    twenty_four_solar_terms[0:6]:{"關":"丑","籥":"巳"},   # 立春到穀雨
+    twenty_four_solar_terms[6:12]:{"關":"辰","籥":"申"},  # 立夏到大暑
+    twenty_four_solar_terms[12:18]:{"關":"未","籥":"亥"}, # 立秋到霜降
+    twenty_four_solar_terms[18:24]:{"關":"戌","籥":"寅"}  # 立冬到大寒
+}
+zhi2gua = {
+    '子': '坎', '寅': '震', '卯': '震', '辰': '巽', '巳': '巽', 
+    '午': '離', '申': '兌', '酉': '兌', '戌': '乾', '亥': '乾', 
+    '丑': '中', '未': '中'
+}
 #locknkey ={("正","二","三"):re.findall("..","關中籥離"),
 #("四","五","六"):re.findall("..","關震籥兌"),
 #("七","八","九"):re.findall("..","關離籥坎"),
@@ -72,19 +94,21 @@ def random_split(total):
     return random.randint(1, total - 1)
 
 # 主流程
-def five_zhao_paipan(day_gan, num, jq, day_zhi):
+def five_zhao_paipan(day_gan, num, jq, cm, gz1, gz2):
     num = 0
     if day_gan not in day_gan_to_beast:
         return {"錯誤": "日干不正確，請輸入：甲乙丙丁戊己庚辛壬癸"}
-
     base = 36
     result = {}
-    lk = config.multi_key_dict_get(locknkey, day_zhi)
     # 六獸序列，循環分配六個位置
-    beast_start = day_gan_to_beast[day_gan]
+    beast_start = day_gan_to_beast[gz1[0]]
     start_index = six_beasts_order.index(beast_start)
     beast_seq = [six_beasts_order[(start_index + i) % len(six_beasts_order)] for i in range(6)]
-
+    liuren_hour =  kinliuren.Liuren(jq, cm, gz1, gz2).result_m(0)
+    sky2earth = bidict(liuren_hour["地轉天盤"])
+    lnk = config.multi_key_dict_get(solar_terms_by_season, jq)
+    lock = zhi2gua[sky2earth.inverse[lnk["關"]]]
+    key = zhi2gua[sky2earth.inverse[lnk["籥"]]]
     positions = [
         ("巽宮", "兆"),
         ("震宮", "木鄉"),
@@ -119,8 +143,8 @@ def five_zhao_paipan(day_gan, num, jq, day_zhi):
             "六獸死": "死" if sixbeast_weakness.get(beast)[0][0] == gong[0] else "",
             "六獸害": "害" if sixbeast_weakness.get(beast)[1][0] == gong[0] else "",
             "六親": relation,
-            "關": "關" if lk[0][1] == gong[0] else "",
-            "籥": "籥" if lk[1][1] == gong[0] else ""
+            "關": "關" if lock == gong[0] else "",
+            "籥": "籥" if key == gong[0] else ""
         }
 
         remain -= zhao_num
@@ -129,7 +153,7 @@ def five_zhao_paipan(day_gan, num, jq, day_zhi):
     return result
 
 
-def gangzhi_paipan(gz_list, num, jq):
+def gangzhi_paipan(gz_list, num, jq, cm, sytle):
     """以年月日時干支計算五兆。
 
     參數 ``gz_list`` 為 ``config.gangzhi`` 所傳回的前四項 [年, 月, 日, 時]。
@@ -140,12 +164,18 @@ def gangzhi_paipan(gz_list, num, jq):
     y, m, d, h, mi= gz_list
     if mi[0] not in day_gan_to_beast:
         return {"錯誤": "日干不正確，請輸入：甲乙丙丁戊己庚辛壬癸"}
-    lk = config.multi_key_dict_get(locknkey, mi[1])
+    #lk = config.multi_key_dict_get(locknkey, mi[1])
     jz2num = dict(zip(config.jiazi(), range(1, 61)))
     beast_start = day_gan_to_beast[mi[0]]
     start_index = six_beasts_order.index(beast_start)
     beast_seq = [six_beasts_order[(start_index + i) % len(six_beasts_order)]
                  for i in range(6)]
+    liuren_hour =  kinliuren.Liuren(jq, cm, h, mi).result_m(0)
+    sky2earth = bidict(liuren_hour["地轉天盤"])
+    lnk = config.multi_key_dict_get(solar_terms_by_season, jq)
+    lock = zhi2gua[sky2earth.inverse[lnk["關"]]]
+    key = zhi2gua[sky2earth.inverse[lnk["籥"]]]
+    
     positions = [
         ("巽宮", "兆", [y, m, d, h, mi, num]),
         ("震宮", "木鄉", [m, d, h, mi, num]),
@@ -191,8 +221,8 @@ def gangzhi_paipan(gz_list, num, jq):
             "六獸死": "死" if sixbeast_weakness.get(beast)[0][0] == gong[0] else "",
             "六獸害": "害" if sixbeast_weakness.get(beast)[1][0] == gong[0] else "",
             "六親": relation,
-            "關": "關" if lk[0][1] == gong[0] else "",
-            "籥": "籥" if lk[1][1] == gong[0] else ""
+            "關": "關" if lock == gong[0] else "",
+            "籥": "籥" if key == gong[0] else ""
         }
 
     return result
