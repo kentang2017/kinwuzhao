@@ -94,14 +94,15 @@ def random_split(total):
     return random.randint(1, total - 1)
 
 # 主流程
-def five_zhao_paipan(day_gan, num, jq, cm, gz1, gz2):
+def five_zhao_paipan(num, jq, cm, gz1, gz2):
     num = 0
+    day_gan = gz1[0]
     if day_gan not in day_gan_to_beast:
         return {"錯誤": "日干不正確，請輸入：甲乙丙丁戊己庚辛壬癸"}
     base = 36
     result = {}
     # 六獸序列，循環分配六個位置
-    beast_start = day_gan_to_beast[gz1[0]]
+    beast_start = day_gan_to_beast[day_gan]
     start_index = six_beasts_order.index(beast_start)
     beast_seq = [six_beasts_order[(start_index + i) % len(six_beasts_order)] for i in range(6)]
     liuren_hour =  kinliuren.Liuren(jq, cm, gz1, gz2).result_m(0)
