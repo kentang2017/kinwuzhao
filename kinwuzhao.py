@@ -28,6 +28,7 @@ guxu = dict(zip(config.liujiashun_dict().keys(), [
 {"陽":{"孤":"寅", "虛":"申"}, "陰": {"孤":"卯", "虛":"酉"}},
 {"陽":{"孤":"子", "虛":"午"}, "陰": {"孤":"丑", "虛":"未"}}]))
 
+yy = {tuple(list("甲丙戊庚壬")):"陽", tuple(list("乙丁己辛癸")):"陰"}
 
 general = dict(zip(list("子丑寅卯辰巳午未申酉戌亥"),list("子酉午卯子酉午卯子酉午卯")))
 # 六獸序列
@@ -139,7 +140,10 @@ def five_zhao_paipan(num, jq, cm, gz1, gz2):
         zhao_num = zhao_num if zhao_num != 0 else 5
         zhao_element = num_to_element[zhao_num]
         beast = beast_seq[idx]
-
+        get_gx = config.multi_key_dict_get(guxu, gz2)
+        get_yy = get_gx.get(config.multi_key_dict_get(yy, gz2[0]))
+        gu = zhi2gua[get_yy["孤"]]
+        xu = zhi2gua[get_yy["虛"]]
         if idx == 0:
             relation = ""
             my_element = zhao_element
@@ -155,6 +159,8 @@ def five_zhao_paipan(num, jq, cm, gz1, gz2):
             "六獸死": "死" if sixbeast_weakness.get(beast)[0][0] == gong[0] else "",
             "六獸害": "害" if sixbeast_weakness.get(beast)[1][0] == gong[0] else "",
             "六親": relation,
+            "孤": "孤" if gu == gong[0] else "",
+            "虛": "虛" if xu == gong[0] else "",
             "關": "關" if lock == gong[0] else "",
             "籥": "籥" if key == gong[0] else "",
             "將軍": "將軍" if g == gong[0] else ""
@@ -189,6 +195,10 @@ def gangzhi_paipan(gz_list, num, jq, cm):
     lock = zhi2gua[sky2earth.inverse[lnk["關"]]]
     key = zhi2gua[sky2earth.inverse[lnk["籥"]]]
     g = zhi2gua[sky2earth.inverse[general[mi[1]]]]
+    get_gx = config.multi_key_dict_get(guxu, gz2)
+    get_yy = get_gx.get(config.multi_key_dict_get(yy, gz2[0]))
+    gu = zhi2gua[get_yy["孤"]]
+    xu = zhi2gua[get_yy["虛"]]
     positions = [
         ("巽宮", "兆", [y, m, d, h, mi, num]),
         ("震宮", "木鄉", [m, d, h, mi, num]),
@@ -236,6 +246,8 @@ def gangzhi_paipan(gz_list, num, jq, cm):
             "六親": relation,
             "關": "關" if lock == gong[0] else "",
             "籥": "籥" if key == gong[0] else "",
+            "孤": "孤" if gu == gong[0] else "",
+            "虛": "虛" if xu == gong[0] else "",
             "將軍": "將軍" if g == gong[0] else ""
         }
 
