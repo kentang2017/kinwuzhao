@@ -111,10 +111,7 @@ def build_svg(data):
             "{}{}{}".format(cell.get("六獸", ""),cell.get("六獸死", ""),cell.get("六獸害", "")),  # Six Beasts (e.g., 朱雀)
             cell.get("六親", ""),   # Six Relations (e.g., 我本人)
             cell.get("將軍", ""),
-            cell.get("關", ""),
-            cell.get("籥", ""),
-            cell.get("孤", ""),
-            cell.get("虛", ""),
+            "{}{}{}{}".format(cell.get("關", ""),cell.get("籥", ""),cell.get("孤", ""),cell.get("虛", ""))
         ]
         # Add text with tspans for multiline rendering
         parts.append(f'<text x="{x}" y="{y}" text-anchor="middle" '
