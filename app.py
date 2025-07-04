@@ -107,11 +107,11 @@ def build_svg(data):
         # Prepare text components
         texts = [
             name,  # Palace name (e.g., 巽宮)
-            "{}".format(cell.get("五行", "")),#cell.get("旺相", "")),  # Five Elements (e.g., 水)
-            "{}".format(cell.get("六獸", "")),#cell.get("六獸死", ""),cell.get("六獸害", "")),  # Six Beasts (e.g., 朱雀)
+            "{}{}".format(cell.get("五行", ""),cell.get("旺相", "")),  # Five Elements (e.g., 水)
+            "{}{}{}".format(cell.get("六獸", ""),cell.get("六獸死", ""),cell.get("六獸害", "")),  # Six Beasts (e.g., 朱雀)
             cell.get("六親", ""),   # Six Relations (e.g., 我本人)
             #cell.get("將軍", ""),
-            #"{}{}{}{}".format(cell.get("關", ""),cell.get("籥", ""),cell.get("孤", ""),cell.get("虛", ""))
+            "{}{}{}{}".format(cell.get("關", ""),cell.get("籥", ""),cell.get("孤", ""),cell.get("虛", ""))
         ]
         # Add text with tspans for multiline rendering
         parts.append(f'<text x="{x}" y="{y}" text-anchor="middle" '
