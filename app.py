@@ -80,7 +80,7 @@ pan,example,guji,links,update = st.tabs([' 🧮排盤 ', ' 📜案例 ', ' 📚�
 
 # Map palace names to grid positions
 grid = [
-    ("兆", 0, 0), ("火鄉", 1, 0), ("", 2, 0),
+    ("兆", 0, 0),   ("火鄉", 1, 0), ("", 2, 0),
     ("木鄉", 0, 1), ("土鄉", 1, 1), ("金鄉", 2, 1),
     ("", 0, 2),     ("水鄉", 1, 2), ("", 2, 2)
 ]
@@ -189,10 +189,10 @@ with st.sidebar:
         number = st.number_input(
             "數字",
             min_value=0,
-            max_value=9,
+            max_value=90,
             value=0,
             step=1,
-            help="輸入數字(0-9)"
+            help="輸入數字"
         )
     # Quick-select buttons for common times
     st.subheader("快速選擇")
@@ -242,6 +242,8 @@ with pan:
     qgz = config.gangzhi(y, m, d, h, min)
     jq = jieqi.jq(y, m, d, h, min)
     lunar_month = config.lunar_date_d(y, m, d)["農曆月"][0]
+    if number > 9:
+        number = number % 9
     if pan_mode == "干支起盤":
         pan = kinwuzhao.gangzhi_paipan(qgz, number, jq, lunar_month)
     if pan_mode == "日干起盤":
