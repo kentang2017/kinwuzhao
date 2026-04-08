@@ -8,6 +8,7 @@
 
 from __future__ import annotations
 
+import html
 import logging
 from pathlib import Path
 
@@ -267,7 +268,8 @@ def build_svg(data: dict) -> str:
 # ---------------------------------------------------------------------------
 
 with st.sidebar:
-    st.image("icon.png", width=64)
+    if Path("icon.png").is_file():
+        st.image("icon.png", width=64)
     st.markdown("#### 堅五兆 排盤設定")
 
     default_datetime = pdlm.now(tz="Asia/Hong_Kong")
@@ -426,12 +428,13 @@ with tab_update:
     st.markdown("### 🆕 更新日誌")
     raw_log = _read_local_md("log.md")
     # Parse the log into timeline entries
-    entries = [e.strip() for e in raw_log.split("=" * 45) if e.strip()]
+    _LOG_SEPARATOR = "=" * 45
+    entries = [e.strip() for e in raw_log.split(_LOG_SEPARATOR) if e.strip()]
     if entries:
         for entry in entries:
             lines = entry.strip().splitlines()
-            date_line = lines[0].strip() if lines else ""
-            body_lines = [ln.strip() for ln in lines[1:] if ln.strip()]
+            date_line = html.escape(lines[0].strip()) if lines else ""
+            body_lines = [html.escape(ln.strip()) for ln in lines[1:] if ln.strip()]
             body_html = "<br>".join(body_lines)
             st.markdown(
                 f'<div class="update-entry">'
