@@ -284,12 +284,11 @@ class WuzhaoCalculator:
             zhao_num = cls._mod5_nonzero(left)
             results.append(zhao_num)
 
-            # 扣除實際取走的算子數（即左手份數）
-            # 修正原版 bug：原版錯誤地以 zhao_num 遞減，應以 left 遞減
+            # 修正：以 left（實際取走的算子數）遞減，而非 zhao_num（五除餘數）
             remain -= left
             if remain <= 0:
                 # 若算子用盡，剩餘位置以 5（土）填充
-                # P.2859：「盡則為五」
+                # P.2859 第 8 行：「盡則為五」
                 results.extend([5] * (6 - len(results)))
                 break
 

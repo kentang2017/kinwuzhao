@@ -1,5 +1,10 @@
 # -*- coding: utf-8 -*-
-"""五兆核心揲筮函數測試。"""
+"""五兆核心揲筮函數與類別的綜合測試。
+
+涵蓋 FiveElementsMapper、SixBeastsArranger、WuzhaoCalculator、
+GuxuJudge、InterpretationEngine、WuzhaoDivination 以及
+向後相容的 five_zhao_paipan、gangzhi_paipan 函數。
+"""
 
 from __future__ import annotations
 

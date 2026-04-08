@@ -37,7 +37,7 @@ def _read_local_md(filename: str) -> str:
     try:
         return path.read_text(encoding="utf-8")
     except FileNotFoundError:
-        return f"⚠️ 找不到檔案: {filename}"
+        return f"⚠️ 找不到檔案: {filename}。請確認檔案存在於專案根目錄。"
 
 
 def render_svg(svg: str, num: int) -> None:
