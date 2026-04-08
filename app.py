@@ -8,6 +8,7 @@
 
 from __future__ import annotations
 
+import html
 import logging
 from pathlib import Path
 
@@ -64,7 +65,7 @@ def lunar_date_d(y: int, m: int, d: int) -> dict[str, str]:
 
 
 # ---------------------------------------------------------------------------
-# Page config
+# Page config & custom CSS
 # ---------------------------------------------------------------------------
 
 st.set_page_config(
@@ -73,8 +74,103 @@ st.set_page_config(
     page_icon="icon.png",
 )
 
+st.markdown(
+    """
+    <style>
+    /* ---- Sidebar ---- */
+    section[data-testid="stSidebar"] {
+        background: linear-gradient(180deg, #1A1C23 0%, #252730 100%);
+    }
+    section[data-testid="stSidebar"] hr {
+        border-color: #3A3D4A;
+    }
+
+    /* ---- Info card (used for metrics above the grid) ---- */
+    div.info-card {
+        background: #252730;
+        border: 1px solid #3A3D4A;
+        border-radius: 10px;
+        padding: 14px 18px;
+        margin-bottom: 6px;
+    }
+    div.info-card .label {
+        font-size: 0.78rem;
+        color: #9E9E9E;
+        margin-bottom: 2px;
+        letter-spacing: 0.5px;
+    }
+    div.info-card .value {
+        font-size: 1.05rem;
+        font-weight: 600;
+        color: #E0E0E0;
+    }
+
+    /* ---- Tab content area ---- */
+    div[data-testid="stTabs"] button[data-baseweb="tab"] {
+        font-size: 1rem;
+        padding: 10px 20px;
+    }
+
+    /* ---- Links list in 連結 tab ---- */
+    .link-card {
+        background: #252730;
+        border: 1px solid #3A3D4A;
+        border-radius: 10px;
+        padding: 16px 20px;
+        margin-bottom: 10px;
+        transition: border-color 0.2s;
+    }
+    .link-card:hover {
+        border-color: #FF4B4B;
+    }
+    .link-card a {
+        color: #FF4B4B;
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 1.05rem;
+    }
+    .link-card .link-desc {
+        color: #9E9E9E;
+        font-size: 0.85rem;
+        margin-top: 4px;
+    }
+
+    /* ---- Update log timeline ---- */
+    .update-entry {
+        border-left: 3px solid #FF4B4B;
+        padding: 10px 16px;
+        margin-bottom: 14px;
+        background: #252730;
+        border-radius: 0 8px 8px 0;
+    }
+    .update-entry .update-date {
+        font-weight: 700;
+        color: #FF4B4B;
+        font-size: 0.95rem;
+        margin-bottom: 4px;
+    }
+    .update-entry .update-content {
+        color: #BDBDBD;
+        font-size: 0.9rem;
+        line-height: 1.6;
+    }
+
+    /* ---- Footer ---- */
+    .app-footer {
+        text-align: center;
+        color: #666;
+        font-size: 0.78rem;
+        padding: 20px 0 8px 0;
+        border-top: 1px solid #3A3D4A;
+        margin-top: 30px;
+    }
+    </style>
+    """,
+    unsafe_allow_html=True,
+)
+
 tab_pan, tab_example, tab_guji, tab_links, tab_update = st.tabs(
-    [" 🧮排盤 ", " 📜案例 ", " 📚古籍 ", " 🔗連結 ", " 🆕更新 "]
+    ["🧮 排盤", "📜 案例", "📚 古籍", "🔗 連結", "🆕 更新"]
 )
 
 # ---------------------------------------------------------------------------
@@ -172,11 +268,14 @@ def build_svg(data: dict) -> str:
 # ---------------------------------------------------------------------------
 
 with st.sidebar:
-    st.header("📅 日期與時間選擇")
+    if Path("icon.png").is_file():
+        st.image("icon.png", width=64)
+    st.markdown("#### 堅五兆 排盤設定")
 
     default_datetime = pdlm.now(tz="Asia/Hong_Kong")
 
-    if st.button("⏱ 使用現在時間", use_container_width=True):
+    # -- 快捷按鈕 --
+    if st.button("⏱ 使用現在時間", use_container_width=True, type="primary"):
         now = pdlm.now(tz="Asia/Hong_Kong")
         st.session_state["input_y"] = now.year
         st.session_state["input_m"] = now.month
@@ -185,6 +284,10 @@ with st.sidebar:
         st.session_state["input_min"] = now.minute
         st.rerun()
 
+    st.divider()
+
+    # -- 日期輸入 --
+    st.markdown("##### 📅 日期")
     col1, col2, col3 = st.columns([2, 1, 1])
     with col1:
         y = st.number_input(
@@ -214,6 +317,8 @@ with st.sidebar:
             help="輸入日期 (1-31)",
         )
 
+    # -- 時間輸入 --
+    st.markdown("##### 🕐 時間")
     col4, col5 = st.columns(2)
     with col4:
         h = st.number_input(
@@ -234,6 +339,8 @@ with st.sidebar:
             help="輸入分鐘 (0-59)",
         )
 
+    # -- 數字 --
+    st.markdown("##### 🔢 數字")
     number = st.number_input(
         "數字",
         min_value=0,
@@ -241,6 +348,7 @@ with st.sidebar:
         value=0,
         step=1,
         help="輸入數字 (0-90)",
+        label_visibility="collapsed",
     )
 
     st.divider()
@@ -249,16 +357,18 @@ with st.sidebar:
     valid_date = True
     try:
         selected_datetime = pdlm.datetime(y, m, d_input, h, mi, tz="Asia/Hong_Kong")
-        st.info(f"📆 已選擇: {y}年{m}月{d_input}日 {h:02d}:{mi:02d}")
+        st.success(f"📆 {y}年{m}月{d_input}日 {h:02d}:{mi:02d}", icon="✅")
     except ValueError:
-        st.error("請輸入有效的日期和時間！")
+        st.error("請輸入有效的日期和時間！", icon="🚨")
         valid_date = False
 
     # 起盤方式選擇
+    st.markdown("##### 🔮 起盤方式")
     pan_mode = st.radio(
-        "🔮 起盤方式",
+        "起盤方式",
         ["日干起盤", "時干起盤", "分干起盤", "干支起盤", "唐代正法揲筮"],
         index=0,
+        label_visibility="collapsed",
     )
 
     # 手動折竹輸入（僅在隨機/唐代正法模式下顯示）
@@ -282,6 +392,7 @@ with st.sidebar:
                     )
                     manual_splits.append(val)
 
+    st.divider()
     st.caption("🌏 時區: Asia/Hong_Kong")
 
 
@@ -290,24 +401,50 @@ with st.sidebar:
 # ---------------------------------------------------------------------------
 
 with tab_links:
-    st.header("連結")
-    st.markdown(
-        "- [堅六壬 Kinliuren](https://github.com/kentang2017/kinliuren)\n"
-        "- [堅奇門 Kinqimen](https://github.com/kentang2017/kinqimen)\n"
-        "- [堅太乙 Kintaiyi](https://github.com/kentang2017/kintaiyi)"
-    )
+    st.markdown("### 🔗 相關連結")
+    links = [
+        ("堅六壬 Kinliuren", "https://github.com/kentang2017/kinliuren", "六壬排盤工具"),
+        ("堅奇門 Kinqimen", "https://github.com/kentang2017/kinqimen", "奇門遁甲排盤工具"),
+        ("堅太乙 Kintaiyi", "https://github.com/kentang2017/kintaiyi", "太乙神數排盤工具"),
+    ]
+    for name, url, desc in links:
+        st.markdown(
+            f'<div class="link-card">'
+            f'<a href="{url}" target="_blank">{name}</a>'
+            f'<div class="link-desc">{desc}</div>'
+            f"</div>",
+            unsafe_allow_html=True,
+        )
 
 with tab_example:
-    st.header("案例")
+    st.markdown("### 📜 案例")
     st.markdown(_read_local_md("example.md"))
 
 with tab_guji:
-    st.header("古籍")
+    st.markdown("### 📚 五兆古籍")
     st.markdown(_read_local_md("guji.md"))
 
 with tab_update:
-    st.header("更新")
-    st.markdown(_read_local_md("log.md"))
+    st.markdown("### 🆕 更新日誌")
+    raw_log = _read_local_md("log.md")
+    # Parse the log into timeline entries
+    _LOG_SEPARATOR = "=" * 45
+    entries = [e.strip() for e in raw_log.split(_LOG_SEPARATOR) if e.strip()]
+    if entries:
+        for entry in entries:
+            lines = entry.strip().splitlines()
+            date_line = html.escape(lines[0].strip()) if lines else ""
+            body_lines = [html.escape(ln.strip()) for ln in lines[1:] if ln.strip()]
+            body_html = "<br>".join(body_lines)
+            st.markdown(
+                f'<div class="update-entry">'
+                f'<div class="update-date">{date_line}</div>'
+                f'<div class="update-content">{body_html}</div>'
+                f"</div>",
+                unsafe_allow_html=True,
+            )
+    else:
+        st.markdown(raw_log)
 
 
 # ---------------------------------------------------------------------------
@@ -315,10 +452,10 @@ with tab_update:
 # ---------------------------------------------------------------------------
 
 with tab_pan:
-    st.header("堅五兆")
+    st.markdown("### 🧮 堅五兆 排盤")
 
     if not valid_date:
-        st.warning("請先在側邊欄輸入有效的日期與時間。")
+        st.warning("請先在側邊欄輸入有效的日期與時間。", icon="⚠️")
         st.stop()
 
     try:
@@ -368,14 +505,40 @@ with tab_pan:
 
         svg_markup = build_svg(result)
 
-        info_col1, info_col2 = st.columns(2)
-        with info_col1:
-            st.markdown(f"**🔮 起盤模式:** {pan_mode}")
-            st.markdown(f"**📆 日期:** {y}年{m}月{d_input}日 {h:02d}時{mi:02d}分")
-        with info_col2:
-            st.markdown(f"**🌿 節氣:** {jq_val}")
+        # -- Styled info cards --
+        c1, c2, c3, c4 = st.columns(4)
+        with c1:
             st.markdown(
-                f"**🔢 干支:** {qgz[0]}年 {qgz[1]}月 {qgz[2]}日 {qgz[3]}時 {qgz[4]}分"
+                '<div class="info-card">'
+                '<div class="label">起盤模式</div>'
+                f'<div class="value">🔮 {pan_mode}</div>'
+                "</div>",
+                unsafe_allow_html=True,
+            )
+        with c2:
+            st.markdown(
+                '<div class="info-card">'
+                '<div class="label">日期時間</div>'
+                f'<div class="value">📆 {y}/{m}/{d_input} {h:02d}:{mi:02d}</div>'
+                "</div>",
+                unsafe_allow_html=True,
+            )
+        with c3:
+            st.markdown(
+                '<div class="info-card">'
+                '<div class="label">節氣</div>'
+                f'<div class="value">🌿 {jq_val}</div>'
+                "</div>",
+                unsafe_allow_html=True,
+            )
+        with c4:
+            gz_text = f"{qgz[0]}年 {qgz[1]}月 {qgz[2]}日 {qgz[3]}時 {qgz[4]}分"
+            st.markdown(
+                '<div class="info-card">'
+                '<div class="label">干支</div>'
+                f'<div class="value">🔢 {gz_text}</div>'
+                "</div>",
+                unsafe_allow_html=True,
             )
 
         st.divider()
@@ -384,3 +547,11 @@ with tab_pan:
     except Exception as e:
         logging.exception("排盤過程發生錯誤")
         st.error(f"排盤過程發生錯誤：{e}")
+
+# ---------------------------------------------------------------------------
+# Footer
+# ---------------------------------------------------------------------------
+st.markdown(
+    '<div class="app-footer">堅五兆 Kinwuzhao &copy; kentang2017</div>',
+    unsafe_allow_html=True,
+)
