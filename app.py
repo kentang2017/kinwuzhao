@@ -8,6 +8,7 @@
 
 from __future__ import annotations
 
+import datetime
 import html
 import logging
 from pathlib import Path
@@ -277,67 +278,41 @@ with st.sidebar:
     # -- 快捷按鈕 --
     if st.button("⏱ 使用現在時間", use_container_width=True, type="primary"):
         now = pdlm.now(tz="Asia/Hong_Kong")
-        st.session_state["input_y"] = now.year
-        st.session_state["input_m"] = now.month
-        st.session_state["input_d"] = now.day
-        st.session_state["input_h"] = now.hour
-        st.session_state["input_min"] = now.minute
+        st.session_state["input_date"] = datetime.date(now.year, now.month, now.day)
+        st.session_state["input_time"] = datetime.time(now.hour, now.minute)
         st.rerun()
 
     st.divider()
 
     # -- 日期輸入 --
     st.markdown("##### 📅 日期")
-    col1, col2, col3 = st.columns([2, 1, 1])
-    with col1:
-        y = st.number_input(
-            "年",
-            min_value=1,
-            max_value=2100,
-            value=st.session_state.get("input_y", default_datetime.year),
-            step=1,
-            help="輸入年份 (1-2100)",
-        )
-    with col2:
-        m = st.number_input(
-            "月",
-            min_value=1,
-            max_value=12,
-            value=st.session_state.get("input_m", default_datetime.month),
-            step=1,
-            help="輸入月份 (1-12)",
-        )
-    with col3:
-        d_input = st.number_input(
-            "日",
-            min_value=1,
-            max_value=31,
-            value=st.session_state.get("input_d", default_datetime.day),
-            step=1,
-            help="輸入日期 (1-31)",
-        )
+    default_date = datetime.date(
+        default_datetime.year, default_datetime.month, default_datetime.day
+    )
+    date_val = st.date_input(
+        "選擇日期",
+        value=st.session_state.get("input_date", default_date),
+        min_value=datetime.date(1, 1, 1),
+        max_value=datetime.date(2100, 12, 31),
+        help="選擇日期",
+        label_visibility="collapsed",
+    )
+    y = date_val.year
+    m = date_val.month
+    d_input = date_val.day
 
     # -- 時間輸入 --
     st.markdown("##### 🕐 時間")
-    col4, col5 = st.columns(2)
-    with col4:
-        h = st.number_input(
-            "時",
-            min_value=0,
-            max_value=23,
-            value=st.session_state.get("input_h", default_datetime.hour),
-            step=1,
-            help="輸入小時 (0-23)",
-        )
-    with col5:
-        mi = st.number_input(
-            "分",
-            min_value=0,
-            max_value=59,
-            value=st.session_state.get("input_min", default_datetime.minute),
-            step=1,
-            help="輸入分鐘 (0-59)",
-        )
+    default_time = datetime.time(default_datetime.hour, default_datetime.minute)
+    time_val = st.time_input(
+        "選擇時間",
+        value=st.session_state.get("input_time", default_time),
+        step=datetime.timedelta(minutes=1),
+        help="選擇時間",
+        label_visibility="collapsed",
+    )
+    h = time_val.hour
+    mi = time_val.minute
 
     # -- 數字 --
     st.markdown("##### 🔢 數字")
