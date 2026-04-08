@@ -1,9 +1,10 @@
 # -*- coding: utf-8 -*-
-"""
-Created on Tue May  9 20:32:01 2023
+"""節氣計算模組 — 基於天文曆法精確推算二十四節氣。
 
 @author: kentang
 """
+
+from __future__ import annotations
 
 import re
 import math
@@ -94,32 +95,58 @@ def distancejq(year, month, day, hour, minute, jq):
     return int( Date("{}/{}/{} {}:{}:00.00".format(str(year).zfill(4), str(month).zfill(2), str(day).zfill(2), str(hour).zfill(2), str(minute).zfill(2))) - find_jq_date(year-1, month, day, hour, minute, jq) )
 
 
-def jq(year, month, day, hour, minute):#从当前时间开始连续输出未来n个节气的时间
-    #current =  datetime.strptime("{}/{}/{} {}:{}:00".format(str(year).zfill(4), str(month).zfill(2), str(day).zfill(2),str(hour).zfill(2), str(minute).zfill(2)), '%Y/%m/%d %H:%M:%S')
-    current = Date("{}/{}/{} {}:{}:00".format(str(year).zfill(4), str(month).zfill(2), str(day).zfill(2),str(hour).zfill(2), str(minute).zfill(2)))
+def jq(year, month, day, hour, minute):
+    """計算指定日期時間所在的節氣。
+
+    從指定時間向前推算，找到最近的三個節氣交界點，
+    依據時間落在哪個區間判斷當前節氣。
+
+    Args:
+        year: 年份。
+        month: 月份 (1-12)。
+        day: 日 (1-31)。
+        hour: 小時 (0-23)。
+        minute: 分鐘 (0-59)。
+
+    Returns:
+        當前節氣名稱。
+    """
+    current = Date("{}/{}/{} {}:{}:00".format(
+        str(year).zfill(4), str(month).zfill(2), str(day).zfill(2),
+        str(hour).zfill(2), str(minute).zfill(2)))
     jd = change(year, month, day, hour, minute)
-    #jd = Date("{}/{}/{} {}:{}:00.00".format(str(b.year).zfill(4), str(b.month).zfill(2), str(b.day).zfill(2), str(b.hour).zfill(2), str(b.minute).zfill(2)  ))
     result = []
-    e=ecliptic_lon(jd)
-    n=int(e*180.0/math.pi/15)+1
+    e = ecliptic_lon(jd)
+    n = int(e * 180.0 / math.pi / 15) + 1
     for i in range(3):
-        if n>=24:
-            n-=24
-        jd=iteration(jd,sta)
-        d=Date(jd+1/3).tuple()
-        dt = Date("{}/{}/{} {}:{}:00.00".format(d[0],d[1],d[2],d[3],d[4]).split(".")[0])
-        time_info = {  dt:jieqi_name[n]}
-        n+=1    
+        if n >= 24:
+            n -= 24
+        jd = iteration(jd, sta)
+        d = Date(jd + 1 / 3).tuple()
+        dt = Date("{}/{}/{} {}:{}:00.00".format(d[0], d[1], d[2], d[3], d[4]).split(".")[0])
+        time_info = {dt: jieqi_name[n]}
+        n += 1
         result.append(time_info)
+
     j = [list(i.keys())[0] for i in result]
+
+    # 強化邊界處理：確保所有條件分支都有返回值
     if current > j[0] and current > j[1] and current > j[2]:
+        # 當前時間在所有三個節氣之後
         return list(result[2].values())[0]
-    if current > j[0] and current > j[1] and current <= j[2]:
+    elif current > j[0] and current > j[1]:
+        # 當前時間在第二、三節氣之間
         return list(result[1].values())[0]
-    if current >= j[1] and current < j[2]:
-        return list(result[1].values())[0]
-    if current < j[1] and current < j[2]:
+    elif current > j[0]:
+        # 當前時間在第一、二節氣之間
         return list(result[0].values())[0]
+    else:
+        # 當前時間在第一個節氣之前——回退取前一個節氣
+        # 使用 jieqi_name 向前回繞
+        first_jq = list(result[0].values())[0]
+        first_idx = jieqi_name.index(first_jq)
+        prev_idx = (first_idx - 1) % len(jieqi_name)
+        return jieqi_name[prev_idx]
 
 def gong_wangzhuai(j_q):
     wangzhuai = list("旺相胎沒死囚休廢")
