@@ -59,67 +59,6 @@
 git clone https://github.com/kentang2017/kinwuzhao.git
 cd kinwuzhao
 
-# 2. 安裝依賴
-pip install -r requirements.txt
-
-# 3. 啟動 Streamlit 應用
-streamlit run app.py
-```
-
-### 方式三：Python 引入使用
-
-```python
-from kinwuzhao import *
-
-# 依據實際函數進行五兆占卜
-# Perform Wuzhao divination using the module
-```
-
----
-
-## 🧩 支援功能 Features
-
-| 功能 Feature | 說明 Description |
-|:---|:---|
-| 🎋 五兆占卜 | 完整復原折竹彈占流程 |
-| 🐉 六獸配置 | 青龍、朱雀、螣蛇、勾陳、白虎、玄武自動排列 |
-| ☯️ 孤虛判斷 | 陰孤虛、陽孤虛雙系統分析 |
-| 📅 日干·時干·分干 | 天干排盤，精確到分鐘 |
-| 🔄 王相胎沒死囚廢休 | 五行旺衰全週期判斷 |
-| 🔒 關鎖煞 | 特殊煞星標注與提示 |
-| 🌙 暗色主題 | 精美 Streamlit 暗色介面 |
-
----
-
-## 📸 截圖與演示 Screenshots
-
-<div align="center">
-
-[![五兆占卜介面](https://github.com/kentang2017/kinwuzhao/blob/main/pic/wuzhao.png)](https://kinwuzhao.streamlit.app/)
-
-*五兆占卜 Streamlit 應用介面 / Wuzhao Divination App Interface*
-
-<!-- 如有更多截圖，可在 pic/ 資料夾中添加並引用 -->
-<!-- Add more screenshots from the pic/ folder as needed -->
-
-</div>
-
----
-
-## 📦 安裝 Installation
-
-### 環境要求
-
-- Python 3.8 或以上
-- 建議使用虛擬環境（venv / conda）
-
-### 詳細步驟
-
-```bash
-# 1. 克隆倉庫
-git clone https://github.com/kentang2017/kinwuzhao.git
-cd kinwuzhao
-
 # 2. 建立並啟用虛擬環境（建議）
 python -m venv venv
 # Windows:
@@ -136,26 +75,121 @@ streamlit run app.py
 
 啟動後瀏覽器將自動開啟 `http://localhost:8501`，即可開始占卜。
 
----
-
-## 💡 使用範例 Usage Examples
-
-### Streamlit 應用
-
-```bash
-streamlit run app.py
-```
-
-在瀏覽器中開啟後，依照介面指引輸入占卜資訊，系統將自動進行五兆排盤並顯示結果，包括五行歸屬、六獸配置、孤虛分析等完整占斷。
-
-### Python 模組
+### 方式三：Python 模組引入
 
 ```python
-from kinwuzhao import *
+import config
+import jieqi
+import kinwuzhao
 
-# 五兆占卜的核心函數可直接調用
-# Core Wuzhao divination functions are available for direct use
+# 計算干支（年、月、日、時、分）
+gz = config.gangzhi(2025, 6, 27, 11, 24)
+# gz = ['乙巳', '壬午', '丁卯', '丙午', '壬辰']
+
+# 取得當前節氣
+jq = jieqi.jq(2025, 6, 27, 11, 24)
+# jq = '夏至'
+
+# 干支起盤（完整五兆排盤）
+result = kinwuzhao.gangzhi_paipan(gz, 0, jq, "六")
+# result 包含：兆、木鄉、火鄉、土鄉、金鄉、水鄉 各宮位資訊
+
+# 日干起盤
+result = kinwuzhao.five_zhao_paipan(0, jq, "六", gz[1], gz[2])
 ```
+
+---
+
+## 🧩 支援功能 Features
+
+| 功能 Feature | 說明 Description |
+|:---|:---|
+| 🎋 五兆占卜 | 完整復原折竹彈占流程 |
+| 🐉 六獸配置 | 青龍、朱雀、螣蛇、勾陳、白虎、玄武自動排列 |
+| ☯️ 孤虛判斷 | 陰孤虛、陽孤虛雙系統分析 |
+| 🔄 四種起盤模式 | 日干起盤、時干起盤、分干起盤、干支起盤 |
+| 📅 天干排盤 | 精確到分鐘的干支計算（五虎遁月、五鼠遁時、五狗遁分） |
+| 🔄 王相胎沒死囚廢休 | 依節氣判斷八宮五行旺衰全週期 |
+| 🔒 關鎖煞 | 依季節四關四籥，結合六壬天地盤轉換標注 |
+| 🐲 六獸死害 | 六獸落宮死害自動判斷與提示 |
+| ⚔️ 將軍 | 六壬將軍方位標注 |
+| 🌙 暗色主題 | 精美 Streamlit 暗色介面，SVG 九宮格排盤 |
+
+---
+
+## 🔮 四種起盤模式 Divination Modes
+
+| 模式 | 說明 | 適用場景 |
+|:---|:---|:---|
+| **日干起盤** | 以月干支、日干支為基準起盤 | 日常占事 |
+| **時干起盤** | 以日干支、時干支為基準起盤 | 精確到時辰 |
+| **分干起盤** | 以時干支、分干支為基準起盤 | 精確到分鐘 |
+| **干支起盤** | 綜合年月日時分干支數值總和起盤 | 完整排盤 |
+
+---
+
+## 📸 截圖與演示 Screenshots
+
+<div align="center">
+
+[![五兆占卜介面](https://github.com/kentang2017/kinwuzhao/blob/main/pic/wuzhao.png)](https://kinwuzhao.streamlit.app/)
+
+*五兆占卜 Streamlit 應用介面 / Wuzhao Divination App Interface*
+
+</div>
+
+---
+
+## 📁 專案結構 Project Structure
+
+```
+kinwuzhao/
+├── app.py              # Streamlit 應用主程式（介面與互動邏輯）
+├── kinwuzhao.py        # 五兆核心排盤算法（five_zhao_paipan、gangzhi_paipan）
+├── config.py           # 基礎配置（干支計算、五行關係、納音、孤虛等）
+├── jieqi.py            # 節氣計算模組（基於天文曆法精確推算）
+├── requirements.txt    # Python 依賴清單
+├── example.md          # 占卜案例
+├── guji.md             # 五兆古籍書目索引（隋唐宋三朝）
+├── log.md              # 更新日誌
+├── icon.png            # 應用圖標
+├── pic/                # 截圖與圖片資源
+│   └── wuzhao.png
+└── .streamlit/
+    └── config.toml     # Streamlit 暗色主題配置
+```
+
+---
+
+## 📦 依賴套件 Dependencies
+
+| 套件 | 用途 |
+|:---|:---|
+| [streamlit](https://streamlit.io/) | Web 應用框架 |
+| [pendulum](https://pendulum.eustace.io/) | 時區與日期時間處理 |
+| [sxtwl](https://pypi.org/project/sxtwl/) | 農曆與干支計算 |
+| [ephem](https://rhodesmill.org/pyephem/) | 天文曆法計算（節氣推算） |
+| [kinliuren](https://github.com/kentang2017/kinliuren) | 大六壬天地盤（關鎖·將軍計算） |
+| [bidict](https://bidict.readthedocs.io/) | 雙向字典（天地盤轉換） |
+| [altair](https://altair-viz.github.io/) | 圖表視覺化 |
+| [streamlit-aggrid](https://github.com/PablocFonseca/streamlit-aggrid) | 表格元件 |
+
+> 所有依賴可透過 `pip install -r requirements.txt` 一鍵安裝。
+
+---
+
+## 📚 古籍文獻 Historical Sources
+
+本專案參考之古籍書目涵蓋隋唐宋三朝，包括：
+
+| 朝代 | 書名 |
+|:---|:---|
+| 隋 | 《龜卜五兆動搖訣》、《五兆算經》 |
+| 唐 | 孫思邈《五兆算經》 |
+| 宋 | 《五兆龜經》、《五兆金車口訣》、《五兆秘訣》、《五行見五兆法》等 |
+| 敦煌寫本 | P.2859《五兆要訣略》、《五兆卜法殘卷》、《五兆經法要決》 |
+
+完整書目請參閱 [`guji.md`](guji.md)。
 
 ---
 
