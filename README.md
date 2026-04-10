@@ -128,17 +128,6 @@ result = kinwuzhao.five_zhao_paipan(0, jq, "六", gz[1], gz[2])
 
 ---
 
-## 📸 截圖與演示 Screenshots
-
-<div align="center">
-
-[![五兆占卜介面](https://github.com/kentang2017/kinwuzhao/blob/main/pic/wuzhao.png)](https://kinwuzhao.streamlit.app/)
-
-*五兆占卜 Streamlit 應用介面 / Wuzhao Divination App Interface*
-
-</div>
-
----
 
 ## 📁 專案結構 Project Structure
 
@@ -153,8 +142,6 @@ kinwuzhao/
 ├── guji.md             # 五兆古籍書目索引（隋唐宋三朝）
 ├── log.md              # 更新日誌
 ├── icon.png            # 應用圖標
-├── pic/                # 截圖與圖片資源
-│   └── wuzhao.png
 └── .streamlit/
     └── config.toml     # Streamlit 暗色主題配置
 ```
